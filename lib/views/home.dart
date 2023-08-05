@@ -1,9 +1,14 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:gf_mobile/components/Text/TitleText.dart';
 import 'package:gf_mobile/components/fab/MultiFab.dart';
 import 'package:gf_mobile/components/grid/GGridView.dart';
+import 'package:gf_mobile/components/list/GListView.dart';
+import 'package:gf_mobile/components/list/GListView.dart';
+import 'package:gf_mobile/components/list/GListView.dart';
 import 'package:gf_mobile/theme/themes.dart';
+import 'package:gf_mobile/views/statistics/GFStats.dart';
 
 class Main extends StatefulWidget {
   const Main({super.key, required this.title});
@@ -14,7 +19,7 @@ class Main extends StatefulWidget {
   State<Main> createState() => _MainState();
 }
 
-class _MainState extends State<Main> {
+class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
   int selectedIndex = 0;
 
   PageController pageController = PageController(
@@ -28,53 +33,24 @@ class _MainState extends State<Main> {
     });
   }
 
+  final List<Widget> _pages = [
+    const GFStats(),
+    const GFStats(),
+    const GFStats(),
+  ];
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(widget.title),
-      ),
-      body: PageView(
-        controller: pageController,
-        onPageChanged: (index) {
-          changeIndex(index);
-        },
-        children: [
-          PageStorage(
-              bucket: PageStorageBucket(),
-              key: UniqueKey(),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                child: Column(
-                  children: [
-                    Expanded(child: GGridView(itemCount: 10)),
-                  ],
-                ),
-              )),
-          PageStorage(
-              bucket: PageStorageBucket(),
-              key: UniqueKey(),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                child: Column(
-                  children: [
-                    Expanded(child: GGridView(itemCount: 10)),
-                  ],
-                ),
-              )),
-          PageStorage(
-              bucket: PageStorageBucket(),
-              key: UniqueKey(),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                child: Column(
-                  children: [
-                    Expanded(child: GGridView(itemCount: 10)),
-                  ],
-                ),
-              )),
-        ],
+      body: SafeArea(
+        child: PageStorage(
+          bucket: PageStorageBucket(),
+          child: _pages[selectedIndex],
+        ),
       ),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: const MultiFab(),
@@ -84,8 +60,6 @@ class _MainState extends State<Main> {
         showElevation: true,
         onItemSelected: (index) => setState(() {
           selectedIndex = index;
-          pageController.animateToPage(index,
-              duration: const Duration(milliseconds: 500), curve: Curves.ease);
         }),
         items: [
           FlashyTabBarItem(

@@ -5,6 +5,7 @@ const colorPrimary = Color(0xFF000000);
 const textColor = Color(0xFF009E2C);
 
 ThemeData primaryThemeData = ThemeData(
+  scaffoldBackgroundColor: colorPrimary,
   primaryColor: colorPrimary,
   appBarTheme: AppBarTheme(
     backgroundColor: colorPrimary,
@@ -12,16 +13,17 @@ ThemeData primaryThemeData = ThemeData(
       fontSize: 20,
       color: textColor,
     ),
+    iconTheme: const IconThemeData(
+      color: textColor,
+    ),
   ),
-  brightness: Brightness.light,
-  backgroundColor: Colors.black,
   dividerColor: Colors.white54,
   textTheme: TextTheme(
     bodyLarge: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
-    bodySmall: GoogleFonts.spaceGrotesk(fontSize: 16, fontWeight: FontWeight.normal, color: textColor),
-    bodyMedium: GoogleFonts.spaceGrotesk(fontSize: 15, fontWeight: FontWeight.normal, color: textColor),
+    bodySmall: GoogleFonts.spaceGrotesk(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+    bodyMedium: GoogleFonts.spaceGrotesk(fontSize: 15, fontWeight: FontWeight.normal, color: Colors.white),
     titleLarge: GoogleFonts.spaceGrotesk(fontSize: 24, fontWeight: FontWeight.bold, color: textColor),
-    titleSmall: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
+    titleSmall: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
     titleMedium: GoogleFonts.spaceGrotesk(fontSize: 22, fontWeight: FontWeight.bold, color: textColor),
   ),
 
