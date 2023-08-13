@@ -1,0 +1,18 @@
+import 'package:flutter/material.dart';
+
+class CardTitle extends StatelessWidget {
+
+  final String title;
+  final TextStyle? style;
+
+  const CardTitle({super.key, required this.title, this.style});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.titleMedium?.merge(style).merge(const TextStyle(fontSize: 14, color: Colors.white60)),
+      textAlign: TextAlign.center
+    );
+  }
+}

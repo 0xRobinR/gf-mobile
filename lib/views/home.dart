@@ -8,6 +8,8 @@ import 'package:gf_mobile/components/list/GListView.dart';
 import 'package:gf_mobile/components/list/GListView.dart';
 import 'package:gf_mobile/components/list/GListView.dart';
 import 'package:gf_mobile/theme/themes.dart';
+import 'package:gf_mobile/views/my_files/GFFiles.dart';
+import 'package:gf_mobile/views/settings/Settings.dart';
 import 'package:gf_mobile/views/statistics/GFStats.dart';
 
 class Main extends StatefulWidget {
@@ -35,8 +37,8 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
 
   final List<Widget> _pages = [
     const GFStats(),
-    const GFStats(),
-    const GFStats(),
+    const GFFiles(),
+    const Settings(),
   ];
 
   @override
@@ -52,10 +54,15 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
           child: _pages[selectedIndex],
         ),
       ),
-      floatingActionButtonLocation: ExpandableFab.location,
-      floatingActionButton: const MultiFab(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton.small(
+          onPressed: (){},
+          backgroundColor: textColor,
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBar: FlashyTabBar(
         height: 55,
+        backgroundColor: Colors.black54,
         selectedIndex: selectedIndex,
         showElevation: true,
         onItemSelected: (index) => setState(() {
@@ -63,15 +70,15 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
         }),
         items: [
           FlashyTabBarItem(
-              icon: const Icon(Icons.home),
+              icon: const Icon(Icons.home, color: Colors.white),
               title: const Text('Home'),
               activeColor: textColor),
           FlashyTabBarItem(
-              icon: const Icon(Icons.data_array),
+              icon: const Icon(Icons.data_array, color: Colors.white),
               title: const Text('My Files'),
               activeColor: textColor),
           FlashyTabBarItem(
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.settings, color: Colors.white),
               title: const Text('Settings'),
               activeColor: textColor),
         ],

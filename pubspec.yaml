@@ -22,6 +22,9 @@ dependencies:
   get_storage: ^2.1.1
   loading_indicator: ^3.1.1
   flutter_svg: ^1.1.6
+  line_icons: ^2.0.3
+  flutter_animated_icons: ^1.0.1
+  tap_to_expand: ^0.6.1
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +36,4 @@ flutter:
   assets:
     - assets/logo/
     - assets/banners/
+    - assets/icons/

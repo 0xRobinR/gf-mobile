@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 const colorPrimary = Color(0xFF000000);
 const textColor = Color(0xFF009E2C);
+const cardColor = Color(0xFF009E2C);
 
 ThemeData primaryThemeData = ThemeData(
   scaffoldBackgroundColor: colorPrimary,
@@ -23,8 +24,12 @@ ThemeData primaryThemeData = ThemeData(
     bodySmall: GoogleFonts.spaceGrotesk(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
     bodyMedium: GoogleFonts.spaceGrotesk(fontSize: 15, fontWeight: FontWeight.normal, color: Colors.white),
     titleLarge: GoogleFonts.spaceGrotesk(fontSize: 24, fontWeight: FontWeight.bold, color: textColor),
-    titleSmall: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+    titleSmall: GoogleFonts.spaceGrotesk(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
     titleMedium: GoogleFonts.spaceGrotesk(fontSize: 22, fontWeight: FontWeight.bold, color: textColor),
+  ),
+
+  cardTheme: const CardTheme(
+    color: Color(0xFF1E2026)
   ),
 
   inputDecorationTheme: const InputDecorationTheme(

@@ -19,6 +19,8 @@ class GGridView extends StatelessWidget {
         staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         itemCount: itemHeights.length,
         itemBuilder: (context, index) {
           return GGridItem(index: index);
