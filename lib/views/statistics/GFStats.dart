@@ -30,7 +30,7 @@ class _GFStatsState extends State<GFStats> with AutomaticKeepAliveClientMixin {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset("assets/logo/bnbchain.svg", height: 20,),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               const TitleText(title: "Greenfield"),
             ],
           ),
