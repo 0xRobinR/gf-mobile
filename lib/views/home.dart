@@ -55,7 +55,7 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton.small(
+      floatingActionButton: FloatingActionButton(
           onPressed: (){},
           backgroundColor: textColor,
         child: const Icon(Icons.add),

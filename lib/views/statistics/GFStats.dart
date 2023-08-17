@@ -40,8 +40,8 @@ class _GFStatsState extends State<GFStats> with AutomaticKeepAliveClientMixin {
           child: SingleChildScrollView(
             child: Container(
         padding: const EdgeInsets.all(10),
-        child: Column(
-            children: const [
+        child: const Column(
+            children: [
               SizedBox(height: 20),
               UserOverview(),
               GFDivider(),

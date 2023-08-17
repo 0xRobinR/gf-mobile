@@ -16,7 +16,15 @@ class GListView extends StatelessWidget {
           splashColor: Colors.white.withOpacity(0.4),
           focusColor: Colors.white.withOpacity(0.1),
           highlightColor: Colors.black.withOpacity(0.2),
-          child: GListTile(index: index,)
+          child: GListTile(
+            index: index,
+            title: "created bucket",
+            subtitle: 'block: #199'
+                '\n'
+                'created on 12/12/2023',
+            icon: const Icon(Icons.call_made, color: Colors.greenAccent,),
+            trailingIcon: const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 15,),
+          )
       );
     });
   }

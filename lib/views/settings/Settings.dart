@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gf_mobile/components/GFDivider.dart';
 import 'package:gf_mobile/components/Text/TitleText.dart';
+import 'package:gf_mobile/views/settings/SettingsItem.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -22,9 +24,21 @@ class _SettingsState extends State<Settings> {
             )
           ],
       ),
-      body: const Center(
-        child: TitleText(title: "Settings"),
-      )
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: const Column(
+              children: [
+                SizedBox(height: 10),
+                SettingsItem(),
+                GFDivider(),
+                SettingsItem(),
+              ]
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

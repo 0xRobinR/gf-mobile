@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/Text/SubTitle.dart';
-import 'package:gf_mobile/components/Text/TitleText.dart';
 import 'package:gf_mobile/components/grid/GGridView.dart';
+import 'package:gf_mobile/views/my_files/components/GFFileTile.dart';
 
 class GFFiles extends StatefulWidget {
   const GFFiles({super.key});
@@ -28,11 +28,12 @@ class _GFFilesState extends State<GFFiles> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child: SingleChildScrollView(
+            child: const SingleChildScrollView(
               child: Column(
                 children: [
-                  const Subtitle(title: "Here are your files on Greenfield"),
-                  GGridView(itemCount: 10)
+                  Subtitle(title: "Here are your buckets on Greenfield"),
+                  GFFileTile(),
+                  GFFileTile(),
                 ],
               ),
             ),
