@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/Text/SubTitle.dart';
-import 'package:gf_mobile/components/grid/GGridView.dart';
 import 'package:gf_mobile/views/my_files/components/GFFileTile.dart';
 
 class GFFiles extends StatefulWidget {
@@ -17,29 +16,23 @@ class _GFFilesState extends State<GFFiles> {
       appBar: AppBar(
         title: const Text("My Files"),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {}
-          )
-        ],
+        actions: [IconButton(icon: const Icon(Icons.search), onPressed: () {})],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: const SingleChildScrollView(
-              child: Column(
-                children: [
-                  Subtitle(title: "Here are your buckets on Greenfield"),
-                  GFFileTile(),
-                  GFFileTile(),
-                ],
-              ),
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Subtitle(title: "Here are your buckets on Greenfield"),
+                GFFileTile(),
+                GFFileTile(),
+              ],
             ),
           ),
-        )
-      ),
+        ),
+      )),
     );
   }
 }

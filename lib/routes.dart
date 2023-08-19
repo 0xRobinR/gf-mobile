@@ -6,7 +6,6 @@ import 'package:gf_mobile/views/onboard/OnBoardPage.dart';
 import 'package:gf_mobile/views/splash_screen/SplashScreen.dart';
 import 'package:gf_mobile/views/upload_file.dart';
 
-
 class Routes {
   static const String splash = '/splash-screen';
   static const String onboard = '/onboard';
@@ -22,8 +21,16 @@ class AppPages {
       name: Routes.uploadFile,
       page: () => const UploadFile(),
     ),
-    GetPage(name: Routes.home, page: () => const Main(title: 'GreenField Mobile'), transition: Transition.cupertinoDialog, transitionDuration: const Duration(milliseconds: 1500)),
-    GetPage(name: Routes.onboard, page: () => const OnBoard(), transition: Transition.cupertino, transitionDuration: const Duration(milliseconds: 800)),
+    GetPage(
+        name: Routes.home,
+        page: () => const Main(title: 'GreenField Mobile'),
+        transition: Transition.cupertinoDialog,
+        transitionDuration: const Duration(milliseconds: 1500)),
+    GetPage(
+        name: Routes.onboard,
+        page: () => const OnBoard(),
+        transition: Transition.cupertino,
+        transitionDuration: const Duration(milliseconds: 800)),
     GetPage(name: Routes.splash, page: () => const SplashScreen())
   ];
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/cards/SmallCard.dart';
-import 'package:gf_mobile/theme/themes.dart';
 import 'package:line_icons/line_icons.dart';
 
 class UserOverview extends StatefulWidget {
@@ -16,10 +15,8 @@ class _UserOverviewState extends State<UserOverview> {
     return SizedBox(
       height: 150,
       child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15)
-        ),
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -28,13 +25,23 @@ class _UserOverviewState extends State<UserOverview> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.account_circle, color: Colors.white,),
-                    onPressed: (){},
+                    icon: Icon(
+                      Icons.account_circle,
+                      color: Theme.of(context).textTheme.titleMedium?.color,
+                    ),
+                    onPressed: () {},
                   ),
-                  const Text("0x384df....299bca", style: TextStyle(color: Colors.white),),
+                  Text(
+                    "0x384df....299bca",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.titleMedium?.color),
+                  ),
                   IconButton(
-                    icon: const Icon(Icons.add, color: Colors.white,),
-                    onPressed: (){},
+                    icon: Icon(
+                      Icons.add,
+                      color: Theme.of(context).textTheme.titleMedium?.color,
+                    ),
+                    onPressed: () {},
                   ),
                 ],
               ),
@@ -42,7 +49,7 @@ class _UserOverviewState extends State<UserOverview> {
                 alignment: WrapAlignment.spaceEvenly,
                 spacing: 10,
                 runSpacing: 10,
-                children: const [
+                children: [
                   SmallCard(icon: LineIcons.plusCircle, value: ""),
                   SmallCard(icon: LineIcons.eye, value: ""),
                   SmallCard(icon: LineIcons.download, value: ""),

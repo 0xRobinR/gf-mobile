@@ -6,7 +6,6 @@ import 'package:gf_mobile/components/AnimatedDot.dart';
 import 'package:gf_mobile/components/Text/TitleText.dart';
 import 'package:gf_mobile/config/keys.dart';
 import 'package:gf_mobile/routes.dart';
-import 'package:gf_mobile/views/home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -49,9 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(height: 20),
             const TitleText(title: "BNB GreenField"),
             const SizedBox(height: 20),
-            const AnimatedDotsText(
+            AnimatedDotsText(
               text: 'Initializing Experience',
-              dotColor: Colors.white,
+              dotColor: Theme.of(context).textTheme.titleMedium!.color,
               dotRadius: 3.0,
               dotSpacing: 5.0,
               animationDuration: Duration(milliseconds: 500),

@@ -18,11 +18,24 @@ class _GFUserStatsState extends State<GFUserStats> {
       spacing: 5,
       runSpacing: 5,
       children: const [
-        UserCard(title: "BNB Balance", value: "0.5", assetName: "assets/logo/bnbchain.svg", isSvg: true,),
-        UserCard(title: "BNB Value", value: "${5 * 241.5}", icon: LineIcons.dollarSign),
-        UserCard(title: "My Buckets", value: "5", assetName: "assets/icons/bucket.svg", isSvg: true),
+        UserCard(
+          title: "BNB Balance",
+          value: "0.5",
+          assetName: "assets/logo/bnbchain.svg",
+          isSvg: true,
+        ),
+        UserCard(
+            title: "BNB Value",
+            value: "${5 * 241.5}",
+            icon: LineIcons.dollarSign),
+        UserCard(
+            title: "My Buckets",
+            value: "5",
+            assetName: "assets/icons/bucket.svg",
+            isSvg: true),
         UserCard(title: "Txn Count", value: "5", icon: Icons.receipt_long),
-        ActionCards(title: "Create Bucket", value: "5", icon: Icons.create_new_folder),
+        ActionCards(
+            title: "Create Bucket", value: "5", icon: Icons.create_new_folder),
         ActionCards(title: "Upload File", value: "5", icon: Icons.upload_file),
       ],
     );

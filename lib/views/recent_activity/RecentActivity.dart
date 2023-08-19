@@ -12,9 +12,7 @@ class _RecentActivityState extends State<RecentActivity> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        Expanded(child: GListView())
-      ],
+      children: const [Expanded(child: GListView())],
     );
   }
 }

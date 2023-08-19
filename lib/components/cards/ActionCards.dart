@@ -4,14 +4,19 @@ import 'package:gf_mobile/components/Text/CardTitle.dart';
 import 'package:line_icons/line_icon.dart';
 
 class ActionCards extends StatelessWidget {
-
   final String title;
   final String value;
   final IconData? icon;
   final bool isSvg;
   final String assetName;
 
-  const ActionCards({super.key, required this.title, required this.value, this.icon, this.isSvg = false, this.assetName = ""});
+  const ActionCards(
+      {super.key,
+      required this.title,
+      required this.value,
+      this.icon,
+      this.isSvg = false,
+      this.assetName = ""});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +33,8 @@ class ActionCards extends StatelessWidget {
     return SizedBox(
       width: cardWidth,
       child: Card(
-        elevation: 5,
-        shadowColor: Colors.blueGrey,
+        elevation: 1,
+        shadowColor: Colors.greenAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -41,20 +46,27 @@ class ActionCards extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                    !isSvg ? SizedBox(
-                      height: 22,
-                      child: LineIcon(
-                        icon!,
+                !isSvg
+                    ? SizedBox(
+                        height: 22,
+                        child: LineIcon(
+                          icon!,
+                          color: Colors.yellow.shade800,
+                        ),
+                      )
+                    : SvgPicture.asset(
+                        assetName,
+                        height: 22,
                         color: Colors.yellow.shade800,
                       ),
-                    ) : SvgPicture.asset(assetName, height: 22, color: Colors.yellow.shade800,),
-                  const SizedBox(height: 8),
-                  CardTitle(
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ), title: title,
-                    ),
+                const SizedBox(height: 8),
+                CardTitle(
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                  title: title,
+                ),
               ],
             ),
           ),

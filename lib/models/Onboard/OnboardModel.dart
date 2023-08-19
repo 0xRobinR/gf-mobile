@@ -6,5 +6,9 @@ class OnBoardModel {
   final IconData image;
   final Color bgColor;
 
-  OnBoardModel({required this.bgColor, required this.title, required this.description, required this.image});
+  OnBoardModel(
+      {required this.bgColor,
+      required this.title,
+      required this.description,
+      required this.image});
 }

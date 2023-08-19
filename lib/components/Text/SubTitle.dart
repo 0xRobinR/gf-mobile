@@ -5,16 +5,13 @@ class Subtitle extends StatelessWidget {
   final TextStyle? style;
   final TextAlign? textAlign;
 
-  const Subtitle({super.key, required this.title, this.style, this.textAlign});
+  Subtitle({super.key, required this.title, this.style, this.textAlign});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: const TextStyle(
-        color: Colors.white70
-      ).merge(style),
-      textAlign: textAlign ?? TextAlign.center
-    );
+    return Text(title,
+        style: TextStyle(color: Theme.of(context).textTheme.titleMedium?.color)
+            .merge(style),
+        textAlign: textAlign ?? TextAlign.center);
   }
 }

@@ -1,12 +1,6 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:gf_mobile/components/Text/TitleText.dart';
-import 'package:gf_mobile/components/fab/MultiFab.dart';
-import 'package:gf_mobile/components/grid/GGridView.dart';
-import 'package:gf_mobile/components/list/GListView.dart';
-import 'package:gf_mobile/components/list/GListView.dart';
-import 'package:gf_mobile/components/list/GListView.dart';
 import 'package:gf_mobile/theme/themes.dart';
 import 'package:gf_mobile/views/my_files/GFFiles.dart';
 import 'package:gf_mobile/views/settings/Settings.dart';
@@ -47,41 +41,45 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: SafeArea(
-        child: PageStorage(
-          bucket: PageStorageBucket(),
-          child: _pages[selectedIndex],
+    return ThemeSwitchingArea(
+      child: Scaffold(
+        body: SafeArea(
+          child: PageStorage(
+            bucket: PageStorageBucket(),
+            child: _pages[selectedIndex],
+          ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-          onPressed: (){},
-          backgroundColor: textColor,
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: FlashyTabBar(
-        height: 55,
-        backgroundColor: Colors.black54,
-        selectedIndex: selectedIndex,
-        showElevation: true,
-        onItemSelected: (index) => setState(() {
-          selectedIndex = index;
-        }),
-        items: [
-          FlashyTabBarItem(
-              icon: const Icon(Icons.home, color: Colors.white),
-              title: const Text('Home'),
-              activeColor: textColor),
-          FlashyTabBarItem(
-              icon: const Icon(Icons.data_array, color: Colors.white),
-              title: const Text('My Files'),
-              activeColor: textColor),
-          FlashyTabBarItem(
-              icon: const Icon(Icons.settings, color: Colors.white),
-              title: const Text('Settings'),
-              activeColor: textColor),
-        ],
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: selectedIndex != 2
+            ? FloatingActionButton(
+                onPressed: () {},
+                backgroundColor: textColor,
+                child: const Icon(Icons.add),
+              )
+            : null,
+        bottomNavigationBar: FlashyTabBar(
+          height: 55,
+          backgroundColor: Colors.black,
+          selectedIndex: selectedIndex,
+          showElevation: true,
+          onItemSelected: (index) => setState(() {
+            selectedIndex = index;
+          }),
+          items: [
+            FlashyTabBarItem(
+                icon: const Icon(Icons.home, color: Colors.white),
+                title: const Text('Home'),
+                activeColor: Colors.white),
+            FlashyTabBarItem(
+                icon: const Icon(Icons.data_array, color: Colors.white),
+                title: const Text('My Files'),
+                activeColor: Colors.white),
+            FlashyTabBarItem(
+                icon: const Icon(Icons.settings, color: Colors.white),
+                title: const Text('Settings'),
+                activeColor: Colors.white),
+          ],
+        ),
       ),
     );
   }

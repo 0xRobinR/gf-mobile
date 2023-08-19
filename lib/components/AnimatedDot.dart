@@ -3,7 +3,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 
 class AnimatedDotsText extends StatefulWidget {
   final String text;
-  final Color dotColor;
+  final Color? dotColor;
   final double dotRadius;
   final double dotSpacing;
   final Duration animationDuration;
@@ -11,7 +11,7 @@ class AnimatedDotsText extends StatefulWidget {
   const AnimatedDotsText({
     super.key,
     required this.text,
-    required this.dotColor,
+    this.dotColor,
     required this.dotRadius,
     required this.dotSpacing,
     required this.animationDuration,
@@ -52,15 +52,17 @@ class _AnimatedDotsTextState extends State<AnimatedDotsText>
         return RichText(
           text: TextSpan(
             children: [
-              TextSpan(text: widget.text),
-              const WidgetSpan(
+              TextSpan(
+                  text: widget.text, style: TextStyle(color: widget.dotColor)),
+              WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: SizedBox(
                     width: 25,
                     child: LoadingIndicator(
-                indicatorType: Indicator.ballClipRotateMultiple,
-                colors: [Colors.white],
-              ),
+                      indicatorType: Indicator.ballClipRotateMultiple,
+                      colors:
+                          widget.dotColor != null ? [widget.dotColor!] : null,
+                    ),
                   ))
             ],
           ),

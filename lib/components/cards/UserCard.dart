@@ -4,14 +4,19 @@ import 'package:gf_mobile/components/Text/CardTitle.dart';
 import 'package:line_icons/line_icon.dart';
 
 class UserCard extends StatelessWidget {
-
   final String title;
   final String value;
   final IconData? icon;
   final bool isSvg;
   final String assetName;
 
-  const UserCard({super.key, required this.title, required this.value, this.icon, this.isSvg = false, this.assetName = ""});
+  const UserCard(
+      {super.key,
+      required this.title,
+      required this.value,
+      this.icon,
+      this.isSvg = false,
+      this.assetName = ""});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +33,8 @@ class UserCard extends StatelessWidget {
     return SizedBox(
       width: cardWidth,
       child: Card(
-        elevation: 5,
-        shadowColor: Colors.blueGrey,
+        elevation: 1,
+        shadowColor: Colors.greenAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -45,15 +50,22 @@ class UserCard extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                    ), title: title,
-                  ),
-                  !isSvg ? SizedBox(
-                    height: 22,
-                    child: LineIcon(
-                      icon!,
-                      color: Colors.yellow.shade800,
                     ),
-                  ) : SvgPicture.asset(assetName, height: 22, color: Colors.yellow.shade800,),
+                    title: title,
+                  ),
+                  !isSvg
+                      ? SizedBox(
+                          height: 22,
+                          child: LineIcon(
+                            icon!,
+                            color: Colors.yellow.shade800,
+                          ),
+                        )
+                      : SvgPicture.asset(
+                          assetName,
+                          height: 22,
+                          color: Colors.yellow.shade800,
+                        ),
                 ],
               ),
               const SizedBox(height: 8),

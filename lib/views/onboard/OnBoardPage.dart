@@ -6,9 +6,6 @@ import 'package:gf_mobile/components/Text/TitleText.dart';
 import 'package:gf_mobile/config/keys.dart';
 import 'package:gf_mobile/config/onboard_data.dart';
 import 'package:gf_mobile/models/Onboard/OnboardModel.dart';
-import 'package:gf_mobile/views/home.dart';
-import 'package:gf_mobile/views/home_page/HomePage.dart';
-import 'package:gf_mobile/views/onboard/OnBoardPageData.dart';
 
 class OnBoard extends StatefulWidget {
   const OnBoard({super.key});
@@ -92,16 +89,19 @@ class _Text extends StatelessWidget {
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-        children: [
-        TitleText(
-          title: page.title ?? '',
-        ),
-          const SizedBox(height: 20),
-          Text(page.description ?? '',
+          children: [
+            TitleText(
+              title: page.title ?? '',
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              page.description ?? '',
               textAlign: TextAlign.center,
-          )
-      ],
-    ));
+              style: TextStyle(color: Colors.white.withOpacity(0.8)),
+            )
+          ],
+        ));
   }
 }
 

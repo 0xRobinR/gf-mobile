@@ -25,6 +25,8 @@ dependencies:
   line_icons: ^2.0.3
   flutter_animated_icons: ^1.0.1
   tap_to_expand: ^0.6.1
+  restart_app: ^1.2.1
+  animated_theme_switcher:
 
 dev_dependencies:
   flutter_test:

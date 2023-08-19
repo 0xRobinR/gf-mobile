@@ -22,7 +22,8 @@ genGetBucketInfo({String? bucketName, int? bucketID}) {
   }
 }
 
-genGetObjectInfo({required String bucketName, String? objectName, int? objectID}) {
+genGetObjectInfo(
+    {required String bucketName, String? objectName, int? objectID}) {
   if (objectName != null) {
     return "$gRPC/greenfield/storage/head_object/$bucketName/$objectName";
   } else if (objectID != null) {

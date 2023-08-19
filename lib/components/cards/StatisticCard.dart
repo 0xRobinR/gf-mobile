@@ -2,20 +2,23 @@ import "package:flutter/material.dart";
 import 'package:gf_mobile/components/Text/CardTitle.dart';
 
 class StatisticCard extends StatelessWidget {
-
   final String title;
   final String value;
   final IconData icon;
 
-  const StatisticCard({super.key, required this.title, required this.value, required this.icon});
+  const StatisticCard(
+      {super.key,
+      required this.title,
+      required this.value,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 250,
       child: Card(
-        elevation: 5,
-        shadowColor: Colors.blueGrey,
+        elevation: 1,
+        shadowColor: Colors.greenAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -31,7 +34,8 @@ class StatisticCard extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                    ), title: title,
+                    ),
+                    title: title,
                   ),
                   Icon(
                     icon,
