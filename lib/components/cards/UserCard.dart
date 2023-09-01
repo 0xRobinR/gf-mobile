@@ -1,3 +1,4 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gf_mobile/components/Text/CardTitle.dart';
@@ -5,7 +6,8 @@ import 'package:line_icons/line_icon.dart';
 
 class UserCard extends StatelessWidget {
   final String title;
-  final String value;
+  final double value;
+  final bool? isInt;
   final IconData? icon;
   final bool isSvg;
   final String assetName;
@@ -16,7 +18,8 @@ class UserCard extends StatelessWidget {
       required this.value,
       this.icon,
       this.isSvg = false,
-      this.assetName = ""});
+      this.assetName = "",
+      this.isInt = false});
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +72,11 @@ class UserCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                value,
-                style: const TextStyle(
+              AnimatedFlipCounter(
+                fractionDigits: isInt! ? 0 : 3,
+                value: value,
+                duration: const Duration(seconds: 1),
+                textStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),

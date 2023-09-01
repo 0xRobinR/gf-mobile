@@ -35,6 +35,58 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
     const Settings(),
   ];
 
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Add Files',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                leading: const Icon(Icons.create_new_folder),
+                title: const Text('Create Bucket'),
+                onTap: () {
+                  // Implement folder list upload logic
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                leading: const Icon(Icons.upload_file),
+                title: const Text('Upload File'),
+                onTap: () {
+                  // Implement file upload logic
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                leading: const Icon(Icons.drive_folder_upload),
+                title: const Text('Upload Folder'),
+                onTap: () {
+                  // Implement folder list upload logic
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -52,7 +104,9 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: selectedIndex != 2
             ? FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showBottomSheet(context);
+                },
                 backgroundColor: textColor,
                 child: const Icon(Icons.add),
               )

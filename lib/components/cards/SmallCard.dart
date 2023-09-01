@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class SmallCard extends StatelessWidget {
   final IconData icon;
   final String value;
+  final VoidCallback? callback;
 
-  SmallCard({super.key, required this.icon, required this.value});
+  SmallCard(
+      {super.key, required this.icon, required this.value, this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class SmallCard extends StatelessWidget {
               IconButton(
                 icon: Icon(icon),
                 color: Theme.of(context).textTheme.titleMedium?.color,
-                onPressed: () {},
+                onPressed: callback,
               ),
               // Text(value, style: const TextStyle(color: Colors.black),),
             ],

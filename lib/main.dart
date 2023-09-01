@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gf_mobile/routes.dart';
+import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/theme/theme_controller.dart';
 import 'package:gf_mobile/theme/themes.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   await GetStorage.init();
   Get.put(ThemeController());
-  runApp(GFMobile());
+  runApp(ChangeNotifierProvider(
+      create: (context) => AddressNotifier(), child: GFMobile()));
 }
 
 class GFMobile extends StatelessWidget {

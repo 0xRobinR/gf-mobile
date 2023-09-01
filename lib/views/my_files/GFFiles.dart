@@ -26,8 +26,12 @@ class _GFFilesState extends State<GFFiles> {
             child: Column(
               children: [
                 Subtitle(title: "Here are your buckets on Greenfield"),
-                GFFileTile(),
-                GFFileTile(),
+                const GFFileTile(
+                  title: "phoenix",
+                ),
+                const GFFileTile(
+                  title: "bnb-bucket",
+                ),
               ],
             ),
           ),

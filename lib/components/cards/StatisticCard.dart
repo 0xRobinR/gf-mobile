@@ -1,3 +1,4 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import "package:flutter/material.dart";
 import 'package:gf_mobile/components/Text/CardTitle.dart';
 
@@ -44,9 +45,17 @@ class StatisticCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                value,
-                style: const TextStyle(
+              // Text(
+              //   value,
+              //   style: const TextStyle(
+              //     fontSize: 20,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              AnimatedFlipCounter(
+                value: int.parse(value),
+                duration: const Duration(seconds: 1),
+                textStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),

@@ -16,10 +16,10 @@ class _GFUserActivityState extends State<GFUserActivity> {
     return Container(
         child: Column(
       children: [
-        TitleText(title: "My Activity"),
+        const TitleText(title: "My Activity"),
         Subtitle(title: "Here is your activity on Greenfield"),
-        SizedBox(height: 10),
-        GListView()
+        const SizedBox(height: 10),
+        const GListView()
       ],
     ));
   }

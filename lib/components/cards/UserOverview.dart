@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/cards/SmallCard.dart';
+import 'package:gf_mobile/config/urls.dart';
+import 'package:gf_mobile/state/AddressNotifier.dart';
+import 'package:gf_mobile/views/add_wallet/AddWallet.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class UserOverview extends StatefulWidget {
   const UserOverview({super.key});
@@ -10,6 +16,16 @@ class UserOverview extends StatefulWidget {
 }
 
 class _UserOverviewState extends State<UserOverview> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final addressNotifier = Provider.of<AddressNotifier>(
+        context, listen: false);
+    addressNotifier.loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,33 +43,65 @@ class _UserOverviewState extends State<UserOverview> {
                   IconButton(
                     icon: Icon(
                       Icons.account_circle,
-                      color: Theme.of(context).textTheme.titleMedium?.color,
+                      color: Theme
+                          .of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.color,
                     ),
                     onPressed: () {},
                   ),
-                  Text(
-                    "0x384df....299bca",
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.titleMedium?.color),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.add,
-                      color: Theme.of(context).textTheme.titleMedium?.color,
-                    ),
-                    onPressed: () {},
-                  ),
+                  Consumer<AddressNotifier>(builder: (BuildContext context,
+                      AddressNotifier value, Widget? child) {
+                    return value.address == ""
+                        ? const Text("-")
+                        : Text(
+                      "${value.address.substring(0, 6)}...${value.address
+                          .substring(value.address.length - 6, value.address
+                          .length)}",
+                      style: TextStyle(
+                          color: Theme
+                              .of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.color),
+                    );
+                  }),
+                  AddWallet(),
                 ],
               ),
-              Wrap(
-                alignment: WrapAlignment.spaceEvenly,
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  SmallCard(icon: LineIcons.plusCircle, value: ""),
-                  SmallCard(icon: LineIcons.eye, value: ""),
-                  SmallCard(icon: LineIcons.download, value: ""),
-                ],
+              Consumer<AddressNotifier>(
+                builder: (BuildContext context, AddressNotifier value,
+                    Widget? child) {
+                  return value.address == ""
+                      ? const Text("add wallet")
+                      : Wrap(
+                    alignment: WrapAlignment.spaceEvenly,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: <Widget>[
+                      SmallCard(
+                          icon: LineIcons.plusCircle,
+                          value: "",
+                          callback: () async {
+                            if (await canLaunchUrl(
+                                Uri.parse(bridgeUrl))) {
+                              await launchUrlString(bridgeUrl);
+                            }
+                          }),
+                      SmallCard(
+                          icon: LineIcons.eye,
+                          value: "",
+                          callback: () async {
+                            if (await canLaunchUrl(
+                                Uri.parse(gfScan("address")))) {
+                              await launchUrlString(gfScan("address"));
+                            }
+                          }),
+                      SmallCard(icon: LineIcons.download, value: ""),
+                    ],
+                  );
+                },
               )
             ],
           ),
