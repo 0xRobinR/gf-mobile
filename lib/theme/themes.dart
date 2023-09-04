@@ -41,6 +41,12 @@ ThemeData primaryThemeData = ThemeData(
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: Colors.black54,
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+    ),
+  ),
+
 );
 
 // ------------------------------- LIGHT MODE ---------------------------------

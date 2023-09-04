@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gf_mobile/components/cards/ActionCards.dart';
 import 'package:gf_mobile/components/cards/UserCard.dart';
 import 'package:gf_mobile/state/FetchUserData.dart';
@@ -68,8 +69,14 @@ class _GFUserStatsState extends State<GFUserStats> {
             value: 0,
             isInt: true,
             icon: Icons.receipt_long),
-        const ActionCards(
-            title: "Create Bucket", value: "0", icon: Icons.create_new_folder),
+        ActionCards(
+          title: "Create Bucket",
+          value: "0",
+          icon: Icons.create_new_folder,
+          onTap: () {
+            Get.toNamed("/create_bucket");
+          },
+        ),
         const ActionCards(
             title: "Upload File", value: "5", icon: Icons.upload_file),
       ],

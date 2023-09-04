@@ -2,6 +2,7 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/theme/themes.dart';
+import 'package:gf_mobile/views/create_bucket/AddFiles.dart';
 import 'package:gf_mobile/views/my_files/GFFiles.dart';
 import 'package:gf_mobile/views/settings/Settings.dart';
 import 'package:gf_mobile/views/statistics/GFStats.dart';
@@ -39,50 +40,7 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Add Files',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                leading: const Icon(Icons.create_new_folder),
-                title: const Text('Create Bucket'),
-                onTap: () {
-                  // Implement folder list upload logic
-                  Navigator.pop(context);
-                },
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                leading: const Icon(Icons.upload_file),
-                title: const Text('Upload File'),
-                onTap: () {
-                  // Implement file upload logic
-                  Navigator.pop(context);
-                },
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                leading: const Icon(Icons.drive_folder_upload),
-                title: const Text('Upload Folder'),
-                onTap: () {
-                  // Implement folder list upload logic
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        );
+        return const AddFiles();
       },
     );
   }

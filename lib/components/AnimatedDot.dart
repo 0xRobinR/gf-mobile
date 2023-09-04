@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
+
+import 'Loading.dart';
 
 class AnimatedDotsText extends StatefulWidget {
   final String text;
@@ -56,14 +57,9 @@ class _AnimatedDotsTextState extends State<AnimatedDotsText>
                   text: widget.text, style: TextStyle(color: widget.dotColor)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: SizedBox(
-                    width: 25,
-                    child: LoadingIndicator(
-                      indicatorType: Indicator.ballClipRotateMultiple,
-                      colors:
-                          widget.dotColor != null ? [widget.dotColor!] : null,
-                    ),
-                  ))
+                  child: GFLoader(
+                    dotColor: widget.dotColor,
+                  )),
             ],
           ),
         );

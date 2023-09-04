@@ -9,6 +9,7 @@ class ActionCards extends StatelessWidget {
   final IconData? icon;
   final bool isSvg;
   final String assetName;
+  final VoidCallback? onTap;
 
   const ActionCards(
       {super.key,
@@ -16,7 +17,8 @@ class ActionCards extends StatelessWidget {
       required this.value,
       this.icon,
       this.isSvg = false,
-      this.assetName = ""});
+      this.assetName = "",
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class ActionCards extends StatelessWidget {
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
-          onTap: () {},
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

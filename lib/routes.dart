@@ -1,6 +1,7 @@
 // create routes for the app
 
 import 'package:get/get.dart';
+import 'package:gf_mobile/views/create_bucket/CreateBucket.dart';
 import 'package:gf_mobile/views/home.dart';
 import 'package:gf_mobile/views/onboard/OnBoardPage.dart';
 import 'package:gf_mobile/views/splash_screen/SplashScreen.dart';
@@ -11,6 +12,7 @@ class Routes {
   static const String onboard = '/onboard';
   static const String home = '/home';
   static const String uploadFile = '/uploadFile';
+  static const String createBucket = '/create_bucket';
 }
 
 class AppPages {
@@ -31,6 +33,7 @@ class AppPages {
         page: () => const OnBoard(),
         transition: Transition.cupertino,
         transitionDuration: const Duration(milliseconds: 800)),
-    GetPage(name: Routes.splash, page: () => const SplashScreen())
+    GetPage(name: Routes.splash, page: () => const SplashScreen()),
+    GetPage(name: Routes.createBucket, page: () => const CreateBucket())
   ];
 }
