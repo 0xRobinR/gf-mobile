@@ -27,7 +27,6 @@ dependencies:
   tap_to_expand: ^0.6.1
   restart_app: ^1.2.1
   animated_theme_switcher:
-
   gf_sdk:
     path: "../gf_sdk"
 
