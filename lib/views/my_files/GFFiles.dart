@@ -43,6 +43,8 @@ class _GFFilesState extends State<GFFiles> {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Subtitle(title: "Here are your buckets on Greenfield"),
               ...buckets
