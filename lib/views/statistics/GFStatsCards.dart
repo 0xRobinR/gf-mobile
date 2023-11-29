@@ -32,8 +32,6 @@ class _GFStatsCardState extends State<GFStatsCard> {
 
     final Map<String, dynamic>? statsMap = jsonDecode(stats!);
 
-    print(statsMap);
-
     setState(() {
       blockHeight = statsMap!["currentBlock"];
       totalBuckets = statsMap["totalBuckets"];
@@ -49,7 +47,7 @@ class _GFStatsCardState extends State<GFStatsCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 110,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

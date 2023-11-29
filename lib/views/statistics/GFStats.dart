@@ -46,7 +46,7 @@ class _GFStatsState extends State<GFStats> with AutomaticKeepAliveClientMixin {
               const UserOverview(),
               const GFDivider(),
               const TitleText(title: "Greenfield Statistics"),
-              Subtitle(title: "Here are some statistics about Greenfield"),
+              Subtitle(title: "Here are some statistics about BNB Greenfield"),
               const SizedBox(height: 10),
               const GFStatsCard(),
               const SizedBox(height: 10),

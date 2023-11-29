@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/cards/SmallCard.dart';
 import 'package:gf_mobile/config/urls.dart';
+import 'package:gf_mobile/hooks/useShowAddWalletModal.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/views/add_wallet/AddWallet.dart';
 import 'package:line_icons/line_icons.dart';
@@ -16,13 +17,12 @@ class UserOverview extends StatefulWidget {
 }
 
 class _UserOverviewState extends State<UserOverview> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    final addressNotifier = Provider.of<AddressNotifier>(
-        context, listen: false);
+    final addressNotifier =
+        Provider.of<AddressNotifier>(context, listen: false);
     addressNotifier.loadData();
   }
 
@@ -37,72 +37,114 @@ class _UserOverviewState extends State<UserOverview> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.account_circle,
-                      color: Theme
-                          .of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.color,
-                    ),
-                    onPressed: () {},
-                  ),
-                  Consumer<AddressNotifier>(builder: (BuildContext context,
-                      AddressNotifier value, Widget? child) {
-                    return value.address == ""
-                        ? const Text("-")
-                        : Text(
-                      "${value.address.substring(0, 6)}...${value.address
-                          .substring(value.address.length - 6, value.address
-                          .length)}",
-                      style: TextStyle(
-                          color: Theme
-                              .of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.color),
-                    );
-                  }),
-                  AddWallet(),
-                ],
-              ),
+              Consumer<AddressNotifier>(builder:
+                  (BuildContext context, AddressNotifier value, Widget? child) {
+                return value.address == ""
+                    ? const Text("Greenfield Mobile Wallet")
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          // IconButton(
+                          //   icon: Icon(
+                          //     Icons.account_circle,
+                          //     color: Theme
+                          //         .of(context)
+                          //         .textTheme
+                          //         .titleMedium
+                          //         ?.color,
+                          //   ),
+                          //   onPressed: () {},
+                          // ),
+                          Consumer<AddressNotifier>(builder:
+                              (BuildContext context, AddressNotifier value,
+                                  Widget? child) {
+                            return value.address == ""
+                                ? const Text("")
+                                : Column(
+                                    children: [
+                                      Text(
+                                        "${value.address.substring(0, 6)}...${value.address.substring(value.address.length - 6, value.address.length)}",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium
+                                                ?.color),
+                                      ),
+                                      const Text(
+                                        "Your wallet address",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  );
+                          }),
+                        ],
+                      );
+              }),
+              const SizedBox(height: 10),
               Consumer<AddressNotifier>(
                 builder: (BuildContext context, AddressNotifier value,
                     Widget? child) {
                   return value.address == ""
-                      ? const Text("add wallet")
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                              AddWallet(
+                                withText: true,
+                              ),
+                            ])
                       : Wrap(
-                    alignment: WrapAlignment.spaceEvenly,
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: <Widget>[
-                      SmallCard(
-                          icon: LineIcons.plusCircle,
-                          value: "",
-                          callback: () async {
-                            if (await canLaunchUrl(
-                                Uri.parse(bridgeUrl))) {
-                              await launchUrlString(bridgeUrl);
-                            }
-                          }),
-                      SmallCard(
-                          icon: LineIcons.eye,
-                          value: "",
-                          callback: () async {
-                            if (await canLaunchUrl(
-                                Uri.parse(gfScan("address")))) {
-                              await launchUrlString(gfScan("address"));
-                            }
-                          }),
-                      SmallCard(icon: LineIcons.download, value: ""),
-                    ],
-                  );
+                          alignment: WrapAlignment.spaceEvenly,
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: <Widget>[
+                            SmallCard(
+                                icon: LineIcons.alternateExchange,
+                                value: "",
+                                callback: () async {
+                                  if (await canLaunchUrl(
+                                      Uri.parse(bridgeUrl))) {
+                                    await launchUrlString(bridgeUrl);
+                                  }
+                                }),
+                            SmallCard(
+                                icon: LineIcons.eye,
+                                value: "",
+                                callback: () async {
+                                  print(await canLaunchUrl(
+                                      Uri.parse(gfScan(value.address))));
+                                  if (await canLaunchUrl(
+                                      Uri.parse(gfScan(value.address)))) {
+                                    await launchUrlString(
+                                        gfScan(value.address));
+                                  }
+                                }),
+                            SmallCard(
+                              icon: LineIcons.plus,
+                              value: "",
+                              callback: () {
+                                showAddWalletModal(context);
+                              },
+                            ),
+                          ],
+                        );
                 },
-              )
+              ),
+              // add overview text if wallet not added
+              Consumer<AddressNotifier>(
+                builder: (BuildContext context, AddressNotifier value,
+                    Widget? child) {
+                  return value.address == ""
+                      ? const Text(
+                          "Create/Import a wallet to get started, or view your wallet address",
+                          style: TextStyle(
+                              color: Colors.grey, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        )
+                      : const SizedBox();
+                },
+              ),
             ],
           ),
         ),
