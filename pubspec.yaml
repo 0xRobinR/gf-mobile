@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  archive: ^3.3.8
   pull_down_button: ^0.9.3
   get:
   google_fonts:
