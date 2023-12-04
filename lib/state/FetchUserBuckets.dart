@@ -16,3 +16,16 @@ Future<List<GFBucket>> getUserBuckets(
 
   return gfBuckets;
 }
+
+Future<String> createBucket(
+    {required String authKey,
+    required String primaryAddress,
+    required String bucketName,
+    required String spAddress}) async {
+  final bucket = await GfSdk().createBucket(
+      authKey: authKey,
+      primaryAddress: primaryAddress,
+      spAddress: spAddress,
+      bucketName: bucketName);
+  return bucket ?? "";
+}

@@ -66,7 +66,10 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
                   _showBottomSheet(context);
                 },
                 backgroundColor: textColor,
-                child: const Icon(Icons.add),
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
               )
             : null,
         bottomNavigationBar: FlashyTabBar(

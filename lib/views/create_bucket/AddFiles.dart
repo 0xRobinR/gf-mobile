@@ -12,12 +12,17 @@ class AddFiles extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const Text(
+            "Add Files",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               InkWell(
                 onTap: () {
+                  Navigator.of(context).pop();
                   Get.toNamed("/create_bucket");
                 },
                 child: Column(
