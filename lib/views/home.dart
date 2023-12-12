@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gf_mobile/components/Loading.dart';
 import 'package:gf_mobile/hooks/useAuthCall.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
@@ -34,8 +37,9 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
     });
   }
 
-  void checkAuth() async {
-    Map<String, bool> auth = await checkAuthentication(context);
+  void checkAuth({bool? isPin}) async {
+    Map<String, bool> auth =
+        await checkAuthentication(context, isForcePin: isPin ?? false);
     if (auth.isNotEmpty && auth["isAuthEnabled"]! && auth["isAuthenticated"]!) {
       setState(() {
         isRequiredAuth = false;
@@ -46,6 +50,20 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
         isRequiredAuth = true;
         isLoading = false;
       });
+
+      Timer(const Duration(milliseconds: 500), () {
+        Get.snackbar("Authentication Error",
+            "Invalid authentication detected. Please try again.",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            duration: const Duration(milliseconds: 1200),
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
+            icon: const Icon(Icons.lock, color: Colors.white));
+      });
+
+      Get.back();
     } else {
       setState(() {
         isRequiredAuth = false;
@@ -94,11 +112,17 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
             const Text("App is locked"),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                checkAuth();
-              },
-              child: const Text("Unlock"),
-            )
+                onPressed: () {
+                  checkAuth();
+                },
+                child: const Text("Unlock using Biometrics",
+                    style: TextStyle(color: Colors.black))),
+            ElevatedButton(
+                onPressed: () {
+                  checkAuth(isPin: true);
+                },
+                child: const Text("Unlock using PIN",
+                    style: TextStyle(color: Colors.black)))
           ],
         ),
       ),
@@ -126,7 +150,9 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
                     : SafeArea(
                         child: PageStorage(
                           bucket: PageStorageBucket(),
-                          child: _pages[selectedIndex],
+                          child: _pages[addressNotifier.address != ""
+                              ? selectedIndex
+                              : 0],
                         ),
                       ),
                 floatingActionButtonLocation:
@@ -145,7 +171,8 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
                         ),
                       )
                     : null,
-                bottomNavigationBar: (isLoading)
+                bottomNavigationBar: (isLoading ||
+                        addressNotifier.address == "")
                     ? null
                     : FlashyTabBar(
                         height: 55,

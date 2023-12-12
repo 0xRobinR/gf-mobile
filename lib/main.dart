@@ -64,7 +64,7 @@ class _GFMobileState extends State<GFMobile> with WidgetsBindingObserver {
   }
 
   void lockApp() {
-    Get.to(LockScreenWidget());
+    Get.to(() => LockScreenWidget());
   }
 
   @override

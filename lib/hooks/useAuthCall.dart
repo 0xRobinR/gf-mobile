@@ -37,14 +37,18 @@ Future<bool> authenticateWithBiometrics(
   }
 }
 
-Future<Map<String, bool>> checkAuthentication(BuildContext context) async {
+Future<Map<String, bool>> checkAuthentication(BuildContext context,
+    {bool? isForcePin}) async {
   final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
   bool isBioEnabled = authNotifier.isBioEnabled;
   bool isPinEnabled = authNotifier.isPinEnabled;
 
-  if (isBioEnabled) {
+  bool isForcePin0 = isForcePin ?? false;
+
+  if (isBioEnabled && !isForcePin0) {
     bool result = await authenticateWithBiometrics(
         context, 'Authenticate using Biometrics');
+    Get.back();
     return {"isAuthenticated": result, "isAuthEnabled": true};
   } else if (isPinEnabled) {
     String? enteredPin =
