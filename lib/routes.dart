@@ -1,5 +1,6 @@
 // create routes for the app
 
+import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:gf_mobile/views/create_bucket/CreateBucket.dart';
 import 'package:gf_mobile/views/home.dart';
@@ -26,8 +27,9 @@ class AppPages {
     GetPage(
         name: Routes.home,
         page: () => const Main(title: 'GreenField Mobile'),
-        transition: Transition.cupertinoDialog,
-        transitionDuration: const Duration(milliseconds: 1500)),
+        transition: Transition.native,
+        curve: Curves.easeIn,
+        transitionDuration: const Duration(milliseconds: 500)),
     GetPage(
         name: Routes.onboard,
         page: () => const OnBoard(),

@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gf_mobile/components/Loading.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/state/FetchUserBuckets.dart';
@@ -26,7 +28,8 @@ class _CreateBucketState extends State<CreateBucket> {
   late String errorText;
 
   bool isLoading = false;
-
+  bool isTxnLoading = false;
+  Timer? _debounce;
   final bucketNameController = TextEditingController();
 
   @override
@@ -34,6 +37,25 @@ class _CreateBucketState extends State<CreateBucket> {
     super.initState();
     fetchWallet();
     errorText = "";
+    bucketNameController.addListener(onChange);
+  }
+
+  @override
+  void dispose() {
+    bucketNameController.removeListener(onChange);
+    bucketNameController.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  onChange() {
+    setState(() {
+      bucketName = bucketNameController.text;
+    });
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchEstimation();
+    });
   }
 
   fetchWallet() async {
@@ -44,14 +66,13 @@ class _CreateBucketState extends State<CreateBucket> {
       spAddress = "0x89A1CC91B642DECbC4789474694C606E0E0c420b";
     });
 
-    final userData = await getUserData();
+    final userData = await getUserData(wallet);
     setState(() {
       balance = userData['bnbBalance'];
     });
   }
 
   fetchEstimation() async {
-    print("Fetching estimation");
     setState(() {
       isLoading = true;
     });
@@ -92,6 +113,9 @@ class _CreateBucketState extends State<CreateBucket> {
   }
 
   createCall() async {
+    setState(() {
+      isTxnLoading = true;
+    });
     final createdBucket = await createBucket(
       authKey: authKey,
       primaryAddress: primaryAddress,
@@ -100,6 +124,37 @@ class _CreateBucketState extends State<CreateBucket> {
     );
 
     print(createdBucket);
+
+    final createdBucketInJson = jsonDecode(createdBucket);
+    final error = createdBucketInJson['error'];
+    if (error != null) {
+      setState(() {
+        isTxnLoading = false;
+      });
+      Get.snackbar(
+        "Create Bucket",
+        "Error while creating bucket - ${error['message']}",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
+      return;
+    }
+    Get.snackbar(
+      "Create Bucket",
+      "$bucketName created successfully!",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 3),
+    );
+
+    setState(() {
+      isTxnLoading = false;
+    });
+
+    Navigator.pop(context);
   }
 
   @override
@@ -119,12 +174,6 @@ class _CreateBucketState extends State<CreateBucket> {
               const SizedBox(height: 16),
               TextField(
                 controller: bucketNameController,
-                onChanged: (String value) {
-                  setState(() {
-                    bucketName = value;
-                  });
-                  fetchEstimation();
-                },
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Bucket Name',
@@ -163,7 +212,12 @@ class _CreateBucketState extends State<CreateBucket> {
                           const Text("Gas Fee"),
                           const Spacer(),
                           isLoading
-                              ? const GFLoader()
+                              ? GFLoader(
+                                  dotColor: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .color,
+                                )
                               : Text("$estimatedGasFee BNB"),
                         ],
                       ),
@@ -184,10 +238,16 @@ class _CreateBucketState extends State<CreateBucket> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  createCall();
-                },
-                child: const Text("Create Bucket"),
+                onPressed: isTxnLoading
+                    ? null
+                    : () {
+                        createCall();
+                      },
+                child: isTxnLoading
+                    ? const GFLoader(
+                        dotColor: Colors.black,
+                      )
+                    : const Text("Create Bucket"),
               )
             ],
           ),

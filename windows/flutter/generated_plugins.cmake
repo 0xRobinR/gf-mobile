@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   gf_sdk
+  local_auth_windows
   url_launcher_windows
 )
 

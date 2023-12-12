@@ -1,11 +1,13 @@
-import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gf_mobile/components/Text/TitleText.dart';
 import 'package:gf_mobile/config/keys.dart';
 import 'package:gf_mobile/config/onboard_data.dart';
 import 'package:gf_mobile/models/Onboard/OnboardModel.dart';
+import 'package:gf_mobile/routes.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnBoard extends StatefulWidget {
   const OnBoard({super.key});
@@ -19,29 +21,53 @@ class _OnBoardState extends State<OnBoard> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: ConcentricPageView(
-        duration: const Duration(milliseconds: 700),
-        colors: onBoardData.map((p) => p.bgColor).toList(),
-        radius: screenWidth * 0.1,
+      body: OnBoardingSlider(
+        headerBackgroundColor: Colors.black,
+        finishButtonText: "Let's Go",
+        finishButtonStyle: FinishButtonStyle(backgroundColor: Colors.red),
+        finishButtonTextStyle:
+            GoogleFonts.spaceGrotesk(fontWeight: FontWeight.bold),
+        skipTextButton: Text(
+          'Skip',
+          style: GoogleFonts.spaceGrotesk(fontWeight: FontWeight.bold),
+        ),
+        trailing: Text(
+          'What is Greenfield?',
+          style: GoogleFonts.spaceGrotesk(fontWeight: FontWeight.bold),
+        ),
         onFinish: () {
           GetStorage().write(isOnboarded, true);
-          Get.offAllNamed("/home");
+          Get.offAllNamed(Routes.home);
         },
-        // curve: Curves.fastOutSlowIn,
-        nextButtonBuilder: (context) => Padding(
-          padding: const EdgeInsets.only(left: 2), // visual center
-          child: Icon(
-            Icons.navigate_next,
-            size: screenWidth * 0.1,
-            color: Colors.white,
-          ),
-        ),
-        itemBuilder: (index) {
-          final page = onBoardData[index % onBoardData.length];
-          return SafeArea(
-            child: _Page(page: page),
-          );
-        },
+        background: onBoardData.map((e) => const Text("")).toList(),
+        totalPage: 3,
+        speed: 1,
+        pageBodies: onBoardData
+            .map((e) => Container(
+                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 80,
+                      ),
+                      Text(e.title),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Icon(
+                        e.image,
+                        size: 120,
+                      ),
+                      const SizedBox(
+                        height: 150,
+                      ),
+                      Text(e.description),
+                    ],
+                  ),
+                ))
+            .toList(),
       ),
     );
   }

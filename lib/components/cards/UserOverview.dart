@@ -21,9 +21,11 @@ class _UserOverviewState extends State<UserOverview> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    final addressNotifier =
-        Provider.of<AddressNotifier>(context, listen: false);
-    addressNotifier.loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final addressNotifier =
+          Provider.of<AddressNotifier>(context, listen: false);
+      addressNotifier.loadData();
+    });
   }
 
   @override
@@ -121,7 +123,7 @@ class _UserOverviewState extends State<UserOverview> {
                                   }
                                 }),
                             SmallCard(
-                              icon: LineIcons.plus,
+                              icon: Icons.add,
                               value: "",
                               callback: () {
                                 showAddWalletModal(context);

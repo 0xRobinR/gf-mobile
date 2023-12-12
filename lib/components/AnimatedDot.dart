@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'Loading.dart';
 
@@ -54,7 +55,9 @@ class _AnimatedDotsTextState extends State<AnimatedDotsText>
           text: TextSpan(
             children: [
               TextSpan(
-                  text: widget.text, style: TextStyle(color: widget.dotColor)),
+                  text: widget.text,
+                  style: GoogleFonts.spaceGrotesk(
+                      fontWeight: FontWeight.bold, color: widget.dotColor)),
               WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: GFLoader(

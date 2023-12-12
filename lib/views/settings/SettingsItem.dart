@@ -1,8 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/list/GListTile.dart';
+import 'package:gf_mobile/views/settings/AppAuth.dart';
+import 'package:local_auth/local_auth.dart';
 
-class SettingsItem extends StatelessWidget {
-  const SettingsItem({super.key});
+class SettingsItem extends StatefulWidget {
+  SettingsItem({super.key});
+
+  @override
+  State<SettingsItem> createState() => _SettingsItemState();
+}
+
+class _SettingsItemState extends State<SettingsItem> {
+  LocalAuthentication auth = LocalAuthentication();
+  bool? isBiometricAvailable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkBiometrics();
+  }
+
+  Future<void> checkBiometrics() async {
+    bool canCheckBiometrics = false;
+    try {
+      canCheckBiometrics = await auth.canCheckBiometrics;
+    } catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    setState(() {
+      isBiometricAvailable = canCheckBiometrics;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +101,9 @@ class SettingsItem extends StatelessWidget {
                 size: 15,
               ),
               onPressed: () {},
-            ))
+            )),
+        const AppAuth(),
+        if (isBiometricAvailable!) const BiometricAuth(),
       ],
     );
   }

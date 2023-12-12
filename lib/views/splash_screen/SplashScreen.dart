@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final checkIsOnboarded = GetStorage().read(isOnboarded);
 
     if (checkIsOnboarded == null) {
-      Get.toNamed(Routes.onboard);
+      Get.offAllNamed(Routes.onboard);
     } else {
       Get.offAllNamed(Routes.home);
     }

@@ -28,13 +28,18 @@ dependencies:
   tap_to_expand: ^0.6.1
   restart_app: ^1.2.1
   animated_theme_switcher:
+  onboarding_overlay: ^3.2.1
+  cupertino_onboarding: ^1.2.0
+  flutter_onboarding_slider:
   gf_sdk:
     path: "../gf_sdk"
 
   web3dart:
   pointycastle:
+  flutter_pin_code_fields:
   animated_digit: ^3.2.3
   animated_flip_counter: ^0.2.6
+  local_auth:
   dio:
   url_launcher:
   provider: ^6.0.5

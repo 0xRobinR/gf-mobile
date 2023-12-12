@@ -61,7 +61,7 @@ class _SettingsState extends State<Settings> {
         child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(10),
-            child: const Column(children: [
+            child: Column(children: [
               SizedBox(height: 10),
               SettingsItem(),
               GFDivider(),
