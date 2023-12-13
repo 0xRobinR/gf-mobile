@@ -9,6 +9,8 @@ import 'package:gf_mobile/components/Text/TitleText.dart';
 import 'package:gf_mobile/routes.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/state/AppAuthNotifier.dart';
+import 'package:gf_mobile/state/BucketNotifier.dart';
+import 'package:gf_mobile/state/SPNotifier.dart';
 import 'package:gf_mobile/theme/theme_controller.dart';
 import 'package:gf_mobile/theme/themes.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +20,9 @@ void main() async {
   Get.put(ThemeController());
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AddressNotifier()),
-    ChangeNotifierProvider(create: (_) => AuthNotifier())
+    ChangeNotifierProvider(create: (_) => AuthNotifier()),
+    ChangeNotifierProvider(create: (_) => SPNotifier()),
+    ChangeNotifierProvider(create: (_) => BucketNotifier()),
   ], child: const GFMobile()));
 }
 
@@ -31,8 +35,6 @@ class GFMobile extends StatefulWidget {
 
 class _GFMobileState extends State<GFMobile> with WidgetsBindingObserver {
   ThemeController themeController = Get.find();
-
-  bool _isAppOnStandby = false;
 
   @override
   void initState() {
@@ -50,8 +52,6 @@ class _GFMobileState extends State<GFMobile> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    print("App lifecycle state changed: $state");
-
     if (state == AppLifecycleState.inactive) {
       lockApp();
     } else if (state == AppLifecycleState.resumed) {
@@ -60,11 +60,11 @@ class _GFMobileState extends State<GFMobile> with WidgetsBindingObserver {
   }
 
   void unlockApp() {
-    Get.back();
+    // Get.back();
   }
 
   void lockApp() {
-    Get.to(() => LockScreenWidget());
+    // Get.to(() => LockScreenWidget());
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:gf_mobile/views/create_bucket/CreateBucket.dart';
 import 'package:gf_mobile/views/home.dart';
 import 'package:gf_mobile/views/onboard/OnBoardPage.dart';
+import 'package:gf_mobile/views/settings/storage_providers/StorageProviderList.dart';
 import 'package:gf_mobile/views/splash_screen/SplashScreen.dart';
 import 'package:gf_mobile/views/upload_file.dart';
 
@@ -14,6 +15,7 @@ class Routes {
   static const String home = '/home';
   static const String uploadFile = '/uploadFile';
   static const String createBucket = '/create_bucket';
+  static const String storageProviders = '/storage_providers';
 }
 
 class AppPages {
@@ -36,6 +38,8 @@ class AppPages {
         transition: Transition.cupertino,
         transitionDuration: const Duration(milliseconds: 800)),
     GetPage(name: Routes.splash, page: () => const SplashScreen()),
-    GetPage(name: Routes.createBucket, page: () => const CreateBucket())
+    GetPage(name: Routes.createBucket, page: () => const CreateBucket()),
+    GetPage(
+        name: Routes.storageProviders, page: () => const StorageProviderList()),
   ];
 }

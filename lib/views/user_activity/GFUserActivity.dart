@@ -13,14 +13,13 @@ class GFUserActivity extends StatefulWidget {
 class _GFUserActivityState extends State<GFUserActivity> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       children: [
         const TitleText(title: "My Activity"),
         Subtitle(title: "Here is your activity on Greenfield"),
         const SizedBox(height: 10),
         const GListView()
       ],
-    ));
+    );
   }
 }

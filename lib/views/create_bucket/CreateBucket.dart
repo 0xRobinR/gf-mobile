@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gf_mobile/components/Loading.dart';
+import 'package:gf_mobile/hooks/useAuthCall.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/state/FetchUserBuckets.dart';
 import 'package:gf_mobile/state/FetchUserData.dart';
+import 'package:gf_mobile/utils/showSnackbar.dart';
 import 'package:gf_sdk/gf_sdk.dart';
 import 'package:provider/provider.dart';
 
@@ -240,14 +242,27 @@ class _CreateBucketState extends State<CreateBucket> {
               ElevatedButton(
                 onPressed: isTxnLoading
                     ? null
-                    : () {
-                        createCall();
+                    : () async {
+                        Map<String, bool> auth =
+                            await checkAuthentication(context);
+                        if (auth.isNotEmpty && auth["isAuthenticated"]!) {
+                          createCall();
+                        } else if (auth.isNotEmpty &&
+                            !auth["isAuthenticated"]!) {
+                          showSnackbar(
+                              title: "Authentication Error",
+                              message:
+                                  "Invalid authentication detected. Please try again.");
+                        }
                       },
                 child: isTxnLoading
                     ? const GFLoader(
                         dotColor: Colors.black,
                       )
-                    : const Text("Create Bucket"),
+                    : const Text(
+                        "Create Bucket",
+                        style: TextStyle(color: Colors.black),
+                      ),
               )
             ],
           ),

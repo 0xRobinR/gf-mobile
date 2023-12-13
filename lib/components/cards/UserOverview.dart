@@ -4,6 +4,7 @@ import 'package:gf_mobile/config/urls.dart';
 import 'package:gf_mobile/hooks/useShowAddWalletModal.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/views/add_wallet/AddWallet.dart';
+import 'package:gf_mobile/views/add_wallet/ListWallet.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,17 +47,6 @@ class _UserOverviewState extends State<UserOverview> {
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          // IconButton(
-                          //   icon: Icon(
-                          //     Icons.account_circle,
-                          //     color: Theme
-                          //         .of(context)
-                          //         .textTheme
-                          //         .titleMedium
-                          //         ?.color,
-                          //   ),
-                          //   onPressed: () {},
-                          // ),
                           Consumer<AddressNotifier>(builder:
                               (BuildContext context, AddressNotifier value,
                                   Widget? child) {
@@ -73,7 +63,7 @@ class _UserOverviewState extends State<UserOverview> {
                                                 ?.color),
                                       ),
                                       const Text(
-                                        "Your wallet address",
+                                        "current wallet",
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontWeight: FontWeight.bold),
@@ -81,6 +71,13 @@ class _UserOverviewState extends State<UserOverview> {
                                     ],
                                   );
                           }),
+                          Consumer<AddressNotifier>(builder:
+                              (BuildContext context, AddressNotifier value,
+                                  Widget? child) {
+                            return value.wallets.length > 1
+                                ? ListWallet()
+                                : const SizedBox();
+                          })
                         ],
                       );
               }),

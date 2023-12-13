@@ -12,14 +12,9 @@ Future<Map<String, dynamic>> getUserData(wallet) async {
   final address = wallet?.address;
   var bnbBalance = 0.0;
   var bnbValue = 0.0;
-  var bucketCount = 0;
 
   if (address != null && address == "") {
-    return {
-      'bnbBalance': 0,
-      'bnbValue': 0,
-      'bucketCount': 0,
-    };
+    return {'bnbBalance': 0, 'bnbValue': 0, 'accountNumber': 0};
   }
 
   final userData = await GfSdk().getAccountBalance(address: address);
@@ -30,13 +25,12 @@ Future<Map<String, dynamic>> getUserData(wallet) async {
   final bnbPriceJson = bnbPrice.data['price'];
   bnbValue = (bnbBalance / 1e18) * double.parse(bnbPriceJson);
 
-  final bucket = await GfSdk().getUserBuckets(
-      address: address, spAddress: "https://gnfd-testnet-sp1.bnbchain.org");
-  print(bucket);
+  final accountNumber = await GfSdk().getAccountInfo(address: address);
+  final accountJson = jsonDecode(accountNumber ?? "[]");
 
   return {
     'bnbBalance': (bnbBalance / 1e18),
     'bnbValue': bnbValue,
-    'bucketCount': 0,
+    'accountNumber': accountJson['account_number']
   };
 }

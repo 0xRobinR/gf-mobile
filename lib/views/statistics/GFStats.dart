@@ -6,7 +6,6 @@ import 'package:gf_mobile/components/cards/UserOverview.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/views/statistics/GFStatsCards.dart';
 import 'package:gf_mobile/views/statistics/GFUserStats.dart';
-import 'package:gf_mobile/views/user_activity/GFUserActivity.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/GFDivider.dart';
@@ -39,7 +38,7 @@ class _GFStatsState extends State<GFStats> with AutomaticKeepAliveClientMixin {
                 height: 20,
               ),
               const SizedBox(width: 10),
-              const TitleText(title: "Greenfield"),
+              const TitleText(title: "BNB Greenfield"),
             ],
           ),
           centerTitle: true,
@@ -67,9 +66,8 @@ class _GFStatsState extends State<GFStats> with AutomaticKeepAliveClientMixin {
                         : "Here are some statistics about you"),
                 if (addressNotifier.address != "") ...[
                   const SizedBox(height: 10),
-                  const GFUserStats(),
-                  const GFDivider(),
-                  const GFUserActivity()
+                  const GFUserStats()
+                  // const GFUserActivity()
                 ]
               ],
             ),
@@ -80,6 +78,5 @@ class _GFStatsState extends State<GFStats> with AutomaticKeepAliveClientMixin {
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

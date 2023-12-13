@@ -48,7 +48,7 @@ Future<Map<String, bool>> checkAuthentication(BuildContext context,
   if (isBioEnabled && !isForcePin0) {
     bool result = await authenticateWithBiometrics(
         context, 'Authenticate using Biometrics');
-    Get.back();
+    // Get.back();
     return {"isAuthenticated": result, "isAuthEnabled": true};
   } else if (isPinEnabled) {
     String? enteredPin =

@@ -11,8 +11,11 @@ class GFFiles extends StatefulWidget {
   State<GFFiles> createState() => _GFFilesState();
 }
 
-class _GFFilesState extends State<GFFiles> {
+class _GFFilesState extends State<GFFiles> with AutomaticKeepAliveClientMixin {
   List<GFBucket> buckets = [];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {

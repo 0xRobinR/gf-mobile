@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
@@ -6,12 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gf_mobile/components/Loading.dart';
 import 'package:gf_mobile/hooks/useAuthCall.dart';
+import 'package:gf_mobile/hooks/useUserBuckets.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
+import 'package:gf_mobile/state/SPNotifier.dart';
 import 'package:gf_mobile/theme/themes.dart';
 import 'package:gf_mobile/views/create_bucket/AddFiles.dart';
 import 'package:gf_mobile/views/my_files/GFFiles.dart';
 import 'package:gf_mobile/views/settings/Settings.dart';
 import 'package:gf_mobile/views/statistics/GFStats.dart';
+import 'package:gf_sdk/gf_sdk.dart';
 import 'package:provider/provider.dart';
 
 class Main extends StatefulWidget {
@@ -28,13 +32,68 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
   bool isLoading = true;
   bool isRequiredAuth = false;
 
+  Timer? bucketCallTimer;
+
   @override
   void initState() {
     super.initState();
 
+    final spNotifier = Provider.of<SPNotifier>(context, listen: false);
+    spNotifier.addListener(_spUpdated);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       checkAuth();
+      spNotifier.loadFromStorage();
     });
+
+    final addressNotifier =
+        Provider.of<AddressNotifier>(context, listen: false);
+    addressNotifier.addListener(_onAddressChange);
+  }
+
+  void _spUpdated() {
+    final spNotifier = Provider.of<SPNotifier>(context, listen: false);
+    if (spNotifier.spAddress == "") {
+      GfSdk().getStorageProviders().then((value) {
+        final sps = jsonDecode(value ?? "[]");
+        if (sps.length > 0) {
+          spNotifier.updateSP(sps[0]["operator_address"], sps[0]);
+        }
+      });
+    }
+
+    _onAddressChange();
+  }
+
+  void _onAddressChange() {
+    final addressNotifier =
+        Provider.of<AddressNotifier>(context, listen: false);
+    int newPageIndex = 0;
+    if (addressNotifier.address == "" && pageController.hasClients) {
+      pageController.jumpToPage(newPageIndex);
+    } else {
+      final spNotifier = Provider.of<SPNotifier>(context, listen: false);
+      if (spNotifier.spAddress != "") {
+        if (bucketCallTimer != null) {
+          bucketCallTimer?.cancel();
+        }
+        useUserBuckets(context, spNotifier.spInfo['endpoint']);
+        bucketCallTimer = Timer.periodic(const Duration(seconds: 6), (timer) {
+          useUserBuckets(context, spNotifier.spInfo['endpoint']);
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    // Remove the listener when the widget is disposed
+    Provider.of<AddressNotifier>(context, listen: false)
+        .removeListener(_onAddressChange);
+    Provider.of<SPNotifier>(context, listen: false).removeListener(_spUpdated);
+
+    super.dispose();
   }
 
   void checkAuth({bool? isPin}) async {
@@ -78,6 +137,7 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
   );
 
   changeIndex(int index) {
+    pageController.jumpToPage(index);
     setState(() {
       selectedIndex = index;
     });
@@ -150,9 +210,11 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
                     : SafeArea(
                         child: PageStorage(
                           bucket: PageStorageBucket(),
-                          child: _pages[addressNotifier.address != ""
-                              ? selectedIndex
-                              : 0],
+                          child: PageView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              controller: pageController,
+                              children: _pages),
                         ),
                       ),
                 floatingActionButtonLocation:
@@ -179,9 +241,7 @@ class _MainState extends State<Main> with AutomaticKeepAliveClientMixin {
                         backgroundColor: Colors.black,
                         selectedIndex: selectedIndex,
                         showElevation: true,
-                        onItemSelected: (index) => setState(() {
-                          selectedIndex = index;
-                        }),
+                        onItemSelected: (index) => changeIndex(index),
                         items: [
                           FlashyTabBarItem(
                               icon: const Icon(Icons.home, color: Colors.white),

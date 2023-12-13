@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:gf_mobile/config/keys.dart';
 
 class AddressNotifier extends ChangeNotifier {
   final GetStorage _storage = GetStorage();
@@ -18,6 +19,18 @@ class AddressNotifier extends ChangeNotifier {
     _storage.write("wallet_list", jsonEncode(wallets));
     _storage.write("address", _data);
     _storage.write("privateKey", _pkey);
+    _storage.write(isOnboarded, true);
+  }
+
+  void selectAddress(String data, String pkey) {
+    bool isExistAddress = wallets.any((wallet) => wallet['address'] == data);
+    if (isExistAddress) {
+      _data = data;
+      _pkey = pkey;
+
+      saveToStorage();
+    }
+    notifyListeners();
   }
 
   void updateAddress(String data, String pkey) {

@@ -7,7 +7,9 @@ import 'package:line_icons/line_icon.dart';
 class UserCard extends StatelessWidget {
   final String title;
   final double value;
+  final Widget? valueWidget;
   final bool? isInt;
+  final bool useWidget;
   final IconData? icon;
   final bool isSvg;
   final String assetName;
@@ -19,7 +21,9 @@ class UserCard extends StatelessWidget {
       this.icon,
       this.isSvg = false,
       this.assetName = "",
-      this.isInt = false});
+      this.isInt = false,
+      this.useWidget = false,
+      this.valueWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -72,15 +76,17 @@ class UserCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              AnimatedFlipCounter(
-                fractionDigits: isInt! ? 0 : 3,
-                value: value,
-                duration: const Duration(seconds: 1),
-                textStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              useWidget
+                  ? valueWidget!
+                  : AnimatedFlipCounter(
+                      fractionDigits: isInt! ? 0 : 3,
+                      value: value,
+                      duration: const Duration(seconds: 1),
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
             ],
           ),
         ),

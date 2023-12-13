@@ -8,6 +8,7 @@ class GListTile extends StatelessWidget {
   final String subtitle;
   final Widget trailingIcon;
   final VoidCallback? onTap;
+  final Color? backgroundColor;
 
   const GListTile(
       {super.key,
@@ -16,11 +17,13 @@ class GListTile extends StatelessWidget {
       required this.title,
       required this.subtitle,
       required this.trailingIcon,
-      this.onTap});
+      this.onTap,
+      this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: backgroundColor,
       onTap: onTap,
       leading: icon,
       title: Text(

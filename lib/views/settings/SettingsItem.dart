@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gf_mobile/components/list/GListTile.dart';
+import 'package:gf_mobile/routes.dart';
 import 'package:gf_mobile/state/AppAuthNotifier.dart';
 import 'package:gf_mobile/views/settings/AppAuth.dart';
 import 'package:local_auth/local_auth.dart';
@@ -56,15 +58,18 @@ class _SettingsItemState extends State<SettingsItem> {
           GListTile(
               index: 0,
               icon: null,
+              onTap: () {
+                Get.toNamed(Routes.storageProviders);
+              },
               title: "default storage provider",
               subtitle: "set/change default storage provider",
-              trailingIcon: IconButton(
-                icon: const Icon(
+              trailingIcon: const IconButton(
+                icon: Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.grey,
                   size: 15,
                 ),
-                onPressed: () {},
+                onPressed: null,
               )),
           GListTile(
               index: 0,

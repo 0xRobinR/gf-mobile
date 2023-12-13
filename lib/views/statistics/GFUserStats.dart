@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gf_mobile/components/cards/ActionCards.dart';
 import 'package:gf_mobile/components/cards/UserCard.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
+import 'package:gf_mobile/state/BucketNotifier.dart';
 import 'package:gf_mobile/state/FetchUserData.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class GFUserStats extends StatefulWidget {
 class _GFUserStatsState extends State<GFUserStats> {
   double balance = 0.0;
   double value = 0.0;
-  int bucketCount = 0;
+  double accountNumber = 0;
 
   bool isWalletConnected = false;
 
@@ -35,7 +36,6 @@ class _GFUserStatsState extends State<GFUserStats> {
       setState(() {
         balance = 0.0;
         value = 0.0;
-        bucketCount = 0;
       });
       return;
     }
@@ -43,7 +43,7 @@ class _GFUserStatsState extends State<GFUserStats> {
     setState(() {
       balance = userData['bnbBalance'];
       value = userData['bnbValue'];
-      bucketCount = userData['bucketCount'];
+      accountNumber = double.parse(userData['accountNumber'].toString());
     });
   }
 
@@ -68,15 +68,18 @@ class _GFUserStatsState extends State<GFUserStats> {
           ),
           UserCard(
               title: "BNB Value", value: value, icon: LineIcons.dollarSign),
-          const UserCard(
-              title: "My Buckets",
-              value: 0,
-              isInt: true,
-              assetName: "assets/icons/bucket.svg",
-              isSvg: true),
-          const UserCard(
-              title: "Txn Count",
-              value: 0,
+          Consumer<BucketNotifier>(builder: (context, spNotifier, child) {
+            print(spNotifier.buckets);
+            return UserCard(
+                title: "My Buckets",
+                value: spNotifier.buckets.length.toDouble(),
+                isInt: true,
+                assetName: "assets/icons/bucket.svg",
+                isSvg: true);
+          }),
+          UserCard(
+              title: "Acc. Number",
+              value: accountNumber,
               isInt: true,
               icon: Icons.receipt_long),
           ActionCards(
