@@ -10,6 +10,7 @@ import 'package:gf_mobile/routes.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/state/AppAuthNotifier.dart';
 import 'package:gf_mobile/state/BucketNotifier.dart';
+import 'package:gf_mobile/state/ObjectNotifier.dart';
 import 'package:gf_mobile/state/SPNotifier.dart';
 import 'package:gf_mobile/theme/theme_controller.dart';
 import 'package:gf_mobile/theme/themes.dart';
@@ -23,6 +24,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => AuthNotifier()),
     ChangeNotifierProvider(create: (_) => SPNotifier()),
     ChangeNotifierProvider(create: (_) => BucketNotifier()),
+    ChangeNotifierProvider(create: (_) => ObjectNotifier())
   ], child: const GFMobile()));
 }
 

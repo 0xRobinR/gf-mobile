@@ -19,7 +19,6 @@ class SPNotifier extends ChangeNotifier {
   }
 
   void updateSP(String spAddress, Map<String, dynamic> spInfo) {
-    print("updateSP $spAddress, $spInfo");
     _spAddress = spAddress;
     _spInfo = spInfo;
 

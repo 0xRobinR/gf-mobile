@@ -69,7 +69,6 @@ class _GFUserStatsState extends State<GFUserStats> {
           UserCard(
               title: "BNB Value", value: value, icon: LineIcons.dollarSign),
           Consumer<BucketNotifier>(builder: (context, spNotifier, child) {
-            print(spNotifier.buckets);
             return UserCard(
                 title: "My Buckets",
                 value: spNotifier.buckets.length.toDouble(),
