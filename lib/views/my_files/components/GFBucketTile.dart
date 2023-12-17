@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gf_mobile/components/list/GListTile.dart';
 import 'package:gf_mobile/hooks/useFetchObjects.dart';
+import 'package:gf_mobile/routes.dart';
 import 'package:gf_mobile/state/ObjectNotifier.dart';
 import 'package:gf_mobile/theme/themes.dart';
-import 'package:gf_mobile/views/my_files/components/GFBucketOverview.dart';
 import 'package:provider/provider.dart';
 
 class GFBucketTile extends StatefulWidget {
@@ -63,7 +63,9 @@ class _GFBucketTileState extends State<GFBucketTile> {
           ),
           title: widget.title,
           onTap: () {
-            Get.to(() => GFBucketOverview(bucketName: widget.title));
+            Get.toNamed(Routes.gfBucketOverview, arguments: {
+              "bucketName": widget.title,
+            });
           },
           subtitle:
               "created on ${formatDate(DateTime.fromMillisecondsSinceEpoch(widget.createdAt), [

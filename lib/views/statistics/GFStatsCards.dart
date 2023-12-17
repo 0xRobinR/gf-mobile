@@ -29,13 +29,16 @@ class _GFStatsCardState extends State<GFStatsCard> {
 
   Future<void> initValues() async {
     final String? stats = await getGFStats();
+    try {
+      final Map<String, dynamic>? statsMap = jsonDecode(stats ?? "{}");
 
-    final Map<String, dynamic>? statsMap = jsonDecode(stats!);
-
-    setState(() {
-      blockHeight = statsMap!["currentBlock"];
-      totalBuckets = statsMap["totalBuckets"];
-    });
+      setState(() {
+        blockHeight = statsMap!["currentBlock"];
+        totalBuckets = statsMap["totalBuckets"];
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

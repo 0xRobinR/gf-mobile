@@ -28,8 +28,8 @@ class _GFBucketOverviewState extends State<GFBucketOverview> {
           Consumer<ObjectNotifier>(
             builder: (context, objectNotifier, child) {
               final objects = objectNotifier.objects[widget.bucketName];
-              return objects['objects'].length == 0
-                  ? Center(
+              return objects['objects']?.length == 0
+                  ? const Center(
                       child: Text("No objects found"),
                     )
                   : ListView.builder(
@@ -111,7 +111,10 @@ class _GFBucketOverviewState extends State<GFBucketOverview> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => const CreateObject());
+              context: context,
+              builder: (context) => CreateObject(
+                    bucketName: widget.bucketName,
+                  ));
         },
         child: const Icon(Icons.add),
       ),

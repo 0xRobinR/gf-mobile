@@ -44,6 +44,12 @@ dependencies:
   url_launcher:
   provider: ^6.0.5
   date_format: ^2.0.7
+  file_picker:
+  mime:
+  cached_network_image:
+  sliding_up_panel2:
+  fl_chart:
+  flutter_inappwebview:
 
 dev_dependencies:
   flutter_test:

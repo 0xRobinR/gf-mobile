@@ -3,7 +3,9 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:gf_mobile/views/create_bucket/CreateBucket.dart';
+import 'package:gf_mobile/views/create_object/FilesOverview.dart';
 import 'package:gf_mobile/views/home.dart';
+import 'package:gf_mobile/views/my_files/components/GFBucketOverview.dart';
 import 'package:gf_mobile/views/onboard/OnBoardPage.dart';
 import 'package:gf_mobile/views/settings/storage_providers/StorageProviderList.dart';
 import 'package:gf_mobile/views/splash_screen/SplashScreen.dart';
@@ -16,6 +18,8 @@ class Routes {
   static const String uploadFile = '/uploadFile';
   static const String createBucket = '/create_bucket';
   static const String storageProviders = '/storage_providers';
+  static const String gfBucketOverview = '/gf_bucket_overview';
+  static const String filesOverview = '/files_overview';
 }
 
 class AppPages {
@@ -41,5 +45,11 @@ class AppPages {
     GetPage(name: Routes.createBucket, page: () => const CreateBucket()),
     GetPage(
         name: Routes.storageProviders, page: () => const StorageProviderList()),
+    GetPage(
+        name: Routes.gfBucketOverview,
+        page: () => GFBucketOverview(bucketName: Get.arguments['bucketName'])),
+    GetPage(
+        name: Routes.filesOverview,
+        page: () => FilesOverview(bucketName: Get.arguments['bucketName'])),
   ];
 }

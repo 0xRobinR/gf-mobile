@@ -39,6 +39,10 @@ class _GFFilesState extends State<GFFiles> {
         Provider.of<AddressNotifier>(context, listen: false).address;
     final spNotifier = Provider.of<SPNotifier>(context, listen: false).spInfo;
 
+    if (!mounted) {
+      return;
+    }
+
     if (address == "") {
       setState(() {
         isLoading = false;
@@ -105,7 +109,7 @@ class _GFFilesState extends State<GFFiles> {
                   children: [
                     Subtitle(
                         title:
-                            "You don't have any buckets yet, create one now!"),
+                            "You don't have any buckets in the selected SP yet!"),
                   ],
                 ),
               ]

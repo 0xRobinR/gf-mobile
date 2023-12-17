@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gf_mobile/views/create_object/UploadFile.dart';
 
 class CreateObject extends StatelessWidget {
-  const CreateObject({super.key});
+  final String bucketName;
+
+  const CreateObject({super.key, required this.bucketName});
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +15,8 @@ class CreateObject extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            "Add Files",
+          Text(
+            "Add Files to $bucketName",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
@@ -36,57 +39,36 @@ class CreateObject extends StatelessWidget {
                           child: Column(
                             children: [
                               Icon(Icons.create_new_folder),
-                              Text("Create Bucket"),
+                              Text("Create Folder"),
                             ],
                           ),
                         )),
                   ],
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop("create");
-                },
-                child: Column(
-                  children: [
-                    Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        elevation: 10,
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.upload_file),
-                              Text("Upload Files"),
-                            ],
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop("create");
-                },
-                child: Column(
-                  children: [
-                    Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        elevation: 10,
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.drive_folder_upload),
-                              Text("Upload Folder"),
-                            ],
-                          ),
-                        )),
-                  ],
-                ),
-              ),
+              UploadFile(bucketName: bucketName),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.of(context).pop("create");
+              //   },
+              //   child: Column(
+              //     children: [
+              //       Card(
+              //           shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.circular(15)),
+              //           elevation: 10,
+              //           child: const Padding(
+              //             padding: EdgeInsets.all(8.0),
+              //             child: Column(
+              //               children: [
+              //                 Icon(Icons.drive_folder_upload),
+              //                 Text("Upload Folder"),
+              //               ],
+              //             ),
+              //           )),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ],
