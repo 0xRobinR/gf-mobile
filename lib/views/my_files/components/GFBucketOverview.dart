@@ -28,6 +28,11 @@ class _GFBucketOverviewState extends State<GFBucketOverview> {
           Consumer<ObjectNotifier>(
             builder: (context, objectNotifier, child) {
               final objects = objectNotifier.objects[widget.bucketName];
+              if (objects == null) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
               return objects['objects']?.length == 0
                   ? const Center(
                       child: Text("No objects found"),
