@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:gf_mobile/views/create_object/CreateFolder.dart';
 import 'package:gf_mobile/views/create_object/UploadFile.dart';
 
 class CreateObject extends StatelessWidget {
@@ -23,29 +23,7 @@ class CreateObject extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Get.toNamed("/create_bucket");
-                },
-                child: Column(
-                  children: [
-                    Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        elevation: 10,
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(Icons.create_new_folder),
-                              Text("Create Folder"),
-                            ],
-                          ),
-                        )),
-                  ],
-                ),
-              ),
+              CreateFolder(bucketName: bucketName),
               UploadFile(bucketName: bucketName),
               // InkWell(
               //   onTap: () {

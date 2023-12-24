@@ -23,95 +23,104 @@ class _GFBucketOverviewState extends State<GFBucketOverview> {
         centerTitle: true,
         actions: [],
       ),
-      body: Column(
-        children: [
-          Consumer<ObjectNotifier>(
-            builder: (context, objectNotifier, child) {
-              final objects = objectNotifier.objects[widget.bucketName];
-              if (objects == null) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return objects['objects']?.length == 0
-                  ? const Center(
-                      child: Text("No objects found"),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: objects['objects'].length,
-                      itemBuilder: (context, index) {
-                        final object = objects['objects'][index];
-                        final visibility =
-                            object['visibility'] == "VISIBILITY_TYPE_PRIVATE"
-                                ? "Private"
-                                : "Public";
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Consumer<ObjectNotifier>(
+              builder: (context, objectNotifier, child) {
+                final objects = objectNotifier.objects[widget.bucketName];
+                if (objects == null) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-                        final smallObjectName =
-                            object['object_name'].length > 20
-                                ? object['object_name'].substring(0, 8) +
-                                    "..." +
-                                    object['object_name'].substring(
-                                        object['object_name'].length - 8,
-                                        object['object_name'].length)
-                                : object['object_name'];
-                        return GListTile(
-                          index: index,
-                          title: smallObjectName,
-                          icon: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.file_present),
-                            ],
-                          ),
-                          subtitle:
-                              "${(double.parse(object['payload_size']) / 1024).toStringAsFixed(2)} KB\n$visibility"
-                              "\n${formatDate(DateTime.fromMillisecondsSinceEpoch(int.parse(object['create_at'].toString()) * 1000), [
-                                d,
-                                ' ',
-                                M,
-                                ' ',
-                                hh,
-                                ':',
-                                nn,
-                                ' ',
-                                am
-                              ])}",
-                          trailingIcon: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.download),
-                                    onPressed: () {},
-                                  ),
-                                  IconButton(
-                                    icon: Icon(visibility == "Private"
-                                        ? Icons.visibility_off
-                                        : Icons.visibility),
-                                    onPressed: () {},
-                                  ),
-                                  IconButton(
+                return objects['objects']?.length == 0
+                    ? const Center(
+                        child: Text("No objects found"),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: objects['objects'].length,
+                        itemBuilder: (context, index) {
+                          final object = objects['objects'][index];
+                          final visibility =
+                              object['visibility'] == "VISIBILITY_TYPE_PRIVATE"
+                                  ? "Private"
+                                  : "Public";
+
+                          print("objects ${object['visibility']}");
+
+                          final smallObjectName =
+                              object['object_name'].length > 20
+                                  ? object['object_name'].substring(0, 8) +
+                                      "..." +
+                                      object['object_name'].substring(
+                                          object['object_name'].length - 8,
+                                          object['object_name'].length)
+                                  : object['object_name'];
+                          return GListTile(
+                            index: index,
+                            title: smallObjectName,
+                            icon: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.file_present),
+                              ],
+                            ),
+                            subtitle:
+                                "${(double.parse(object['payload_size']) / 1024).toStringAsFixed(2)} KB\n$visibility"
+                                "\n${formatDate(DateTime.fromMillisecondsSinceEpoch(int.parse(object['create_at'].toString()) * 1000), [
+                                  d,
+                                  ' ',
+                                  M,
+                                  ' ',
+                                  hh,
+                                  ':',
+                                  nn,
+                                  ' ',
+                                  am
+                                ])}",
+                            trailingIcon: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.download),
                                       onPressed: () {},
-                                      icon: const Icon(Icons.delete)),
-                                ],
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            // Get.to(() => GFObjectOverview(
-                            //       bucketName: widget.bucketName,
-                            //       objectName: object['name'],
-                            //     ));
-                          },
-                        );
-                      },
-                    );
-            },
-          ),
-        ],
+                                    ),
+                                    IconButton(
+                                      icon: Icon(visibility == "Private"
+                                          ? Icons.visibility_off
+                                          : Icons.visibility),
+                                      onPressed: () {},
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.delete)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              // Get.to(() => GFObjectOverview(
+                              //       bucketName: widget.bucketName,
+                              //       objectName: object['name'],
+                              //     ));
+                            },
+                          );
+                        },
+                      );
+              },
+            ),
+            const SizedBox(
+              height: 100,
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

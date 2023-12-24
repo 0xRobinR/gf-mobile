@@ -30,11 +30,14 @@ class _GFBucketTileState extends State<GFBucketTile> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      fetchObjectCount();
+      fetchObjectsOnce();
     });
+
+    final objectNotifier = Provider.of<ObjectNotifier>(context, listen: false);
+    objectNotifier.addListener(fetchObjectCount);
   }
 
-  fetchObjectCount() async {
+  fetchObjectsOnce() async {
     final objects = await useFetchObjects(bucketName: widget.title);
     Provider.of<ObjectNotifier>(context, listen: false).setObjects({
       widget.title: {
@@ -43,6 +46,21 @@ class _GFBucketTileState extends State<GFBucketTile> {
         "createdAt": widget.createdAt,
       },
     });
+  }
+
+  fetchObjectCount() async {
+    final objects = await useFetchObjects(bucketName: widget.title);
+    // Provider.of<ObjectNotifier>(context, listen: false).setObjects({
+    //   widget.title: {
+    //     "objects": objects,
+    //     "block": widget.block,
+    //     "createdAt": widget.createdAt,
+    //   },
+    // });
+
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       objectCount = objects.length;

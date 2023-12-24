@@ -1,20 +1,20 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gf_mobile/state/AddressNotifier.dart';
-import 'package:gf_mobile/utils/getFileMeta.dart';
+import 'package:gf_mobile/config/app.dart';
+import 'package:gf_mobile/utils/getFileCost.dart';
 import 'package:gf_mobile/utils/getFileSize.dart';
-import 'package:gf_sdk/gf_sdk.dart';
-import 'package:gf_sdk/models/CreateObjectApproval.dart';
-import 'package:provider/provider.dart';
 
 class FileEstimates extends StatefulWidget {
   final String bucketName;
   final List<File> files;
+  final List<double> gasFees;
 
-  const FileEstimates({Key? key, required this.bucketName, required this.files})
+  const FileEstimates(
+      {Key? key,
+      required this.bucketName,
+      required this.files,
+      required this.gasFees})
       : super(key: key);
 
   @override
@@ -24,67 +24,13 @@ class FileEstimates extends StatefulWidget {
 class _FileEstimates extends State<FileEstimates>
     with AutomaticKeepAliveClientMixin {
   @override
-  bool get wantKeepAlive => true;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      for (var file in widget.files) {
-        getEstimate(file);
-      }
-    });
-  }
-
-  Future<Map<String, dynamic>> computeHashFromFile(File file) async {
-    try {
-      Uint8List fileBytes = await file.readAsBytes();
-      String result = await GfSdk().computeHash(buffer: fileBytes);
-      final resAsJson = jsonDecode(result);
-      // print(resAsJson);
-      return {
-        "contentLength": resAsJson['contentLength'],
-        "expectedChecksums": jsonDecode(resAsJson['expectCheckSums']),
-        "redundancyVal": resAsJson['redundancyVal'],
-      };
-    } on PlatformException catch (e) {
-      // Handle the exception
-      print("Error occurred: ${e.message}");
-      return {
-        "contentLength": 0,
-        "expectedChecksums": [],
-        "redundancyVal": 0,
-      };
-    }
-  }
-
-  getEstimate(File file) async {
-    try {
-      final wallet = Provider.of<AddressNotifier>(context, listen: false);
-      final hash = await computeHashFromFile(file);
-      final contentTypeOfFile = getFileType(file.path);
-
-      String result = await GfSdk().createObjectEstimate(
-          authKey: "0x${wallet.privateKey}",
-          opts: CreateObjectEstimate(
-              contentLength: hash['contentLength'],
-              objectName: file.path.split('/').last,
-              bucketName: widget.bucketName,
-              creator: wallet.address,
-              fileType: contentTypeOfFile,
-              expectedChecksums: hash['expectedChecksums']));
-
-      print(result);
-      final resJson = jsonDecode(result);
-      if (resJson['error'] != null) {
-        print(resJson['error']);
-        return;
-      }
-    } catch (e) {
-      // Handle the exception
-      print("Error occurred: ${e}");
-    }
-  }
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -138,14 +84,14 @@ class _FileEstimates extends State<FileEstimates>
           const SizedBox(
             height: 20.0,
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 "Estimated Cost: ",
               ),
               Text(
-                "\$20.00",
+                "${widget.gasFees.isNotEmpty ? (widget.gasFees.reduce((value, element) => value + element)).toStringAsFixed(6) : 0.00} $feeSymbol",
               ),
             ],
           ),
@@ -156,6 +102,7 @@ class _FileEstimates extends State<FileEstimates>
             child: FileTable(
               files: widget.files,
               bucketName: widget.bucketName,
+              gasFees: widget.gasFees,
             ),
           ),
         ],
@@ -166,9 +113,14 @@ class _FileEstimates extends State<FileEstimates>
 
 class FileTable extends StatefulWidget {
   final List<File> files;
+  final List<double> gasFees;
   final String bucketName;
 
-  const FileTable({Key? key, required this.files, required this.bucketName})
+  const FileTable(
+      {Key? key,
+      required this.files,
+      required this.bucketName,
+      required this.gasFees})
       : super(key: key);
 
   @override
@@ -207,11 +159,23 @@ class _FileTableState extends State<FileTable> {
       final fileName = file.path.split('/').last;
       final smallFileName =
           fileName.length > 20 ? '${fileName.substring(0, 20)}...' : fileName;
+      final gasFee = widget.gasFees.isNotEmpty &&
+              widget.gasFees.length > widget.files.indexOf(file)
+          ? widget.gasFees[widget.files.indexOf(file)]
+          : 0.00;
       return DataRow(
         cells: [
           DataCell(Text(smallFileName)), // File name
           DataCell(Text(getFileSize(file))), // File size
-          DataCell(Text(getFileSize(file))), // File size
+          DataCell(gasFee == 0.00
+              ? const Center(
+                  child: SizedBox(
+                    width: 10,
+                    height: 10,
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Text("$gasFee $feeSymbol")), // File size
         ],
       );
     }).toList();
@@ -254,5 +218,72 @@ class _FileTableState extends State<FileTable> {
         ),
       ),
     );
+  }
+}
+
+class CostWidget extends StatefulWidget {
+  final File file;
+  final String bucketName;
+
+  const CostWidget({super.key, required this.file, required this.bucketName});
+
+  @override
+  State<CostWidget> createState() => _CostWidgetState();
+}
+
+class _CostWidgetState extends State<CostWidget> {
+  double gasFee = 0.00;
+  double gasPrice = 0.00;
+  double gasLimit = 0.00;
+
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getEstimateForFile(widget.file);
+    });
+  }
+
+  getEstimateForFile(File file) async {
+    final estimate = await getEstimate(
+        file: file, context: context, bucketName: widget.bucketName);
+    if (estimate['error'] != null) {
+      print(estimate['error']);
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+    setState(() {
+      gasFee = estimate['gasFee'];
+      gasPrice = estimate['gasPrice'];
+      gasLimit = estimate['gasLimit'];
+      isLoading = false;
+    });
+  }
+
+  String gasCost() {
+    if (gasFee == 0.00 || gasPrice == 0.00 || gasLimit == 0.00) {
+      return "error";
+    }
+    return "${(gasFee).toStringAsFixed(6)} $feeSymbol";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoading
+        ? const Center(
+            child: SizedBox(
+              width: 10,
+              height: 10,
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Text(
+            gasCost(),
+            overflow: TextOverflow.ellipsis,
+          );
   }
 }
