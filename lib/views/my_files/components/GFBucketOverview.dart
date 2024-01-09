@@ -1,8 +1,7 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:gf_mobile/components/list/GListTile.dart';
 import 'package:gf_mobile/state/ObjectNotifier.dart';
 import 'package:gf_mobile/views/create_object/CreateObject.dart';
+import 'package:gf_mobile/views/my_files/GFFileObject.dart';
 import 'package:provider/provider.dart';
 
 class GFBucketOverview extends StatefulWidget {
@@ -15,6 +14,8 @@ class GFBucketOverview extends StatefulWidget {
 }
 
 class _GFBucketOverviewState extends State<GFBucketOverview> {
+  Map<int, bool> isDeleting = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,73 +46,11 @@ class _GFBucketOverviewState extends State<GFBucketOverview> {
                         itemCount: objects['objects'].length,
                         itemBuilder: (context, index) {
                           final object = objects['objects'][index];
-                          final visibility =
-                              object['visibility'] == "VISIBILITY_TYPE_PRIVATE"
-                                  ? "Private"
-                                  : "Public";
 
-                          print("objects ${object['visibility']}");
-
-                          final smallObjectName =
-                              object['object_name'].length > 20
-                                  ? object['object_name'].substring(0, 8) +
-                                      "..." +
-                                      object['object_name'].substring(
-                                          object['object_name'].length - 8,
-                                          object['object_name'].length)
-                                  : object['object_name'];
-                          return GListTile(
-                            index: index,
-                            title: smallObjectName,
-                            icon: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.file_present),
-                              ],
-                            ),
-                            subtitle:
-                                "${(double.parse(object['payload_size']) / 1024).toStringAsFixed(2)} KB\n$visibility"
-                                "\n${formatDate(DateTime.fromMillisecondsSinceEpoch(int.parse(object['create_at'].toString()) * 1000), [
-                                  d,
-                                  ' ',
-                                  M,
-                                  ' ',
-                                  hh,
-                                  ':',
-                                  nn,
-                                  ' ',
-                                  am
-                                ])}",
-                            trailingIcon: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.download),
-                                      onPressed: () {},
-                                    ),
-                                    IconButton(
-                                      icon: Icon(visibility == "Private"
-                                          ? Icons.visibility_off
-                                          : Icons.visibility),
-                                      onPressed: () {},
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.delete)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            onTap: () {
-                              // Get.to(() => GFObjectOverview(
-                              //       bucketName: widget.bucketName,
-                              //       objectName: object['name'],
-                              //     ));
-                            },
-                          );
+                          return GFFileObject(
+                              bucketName: widget.bucketName,
+                              object: object,
+                              index: index);
                         },
                       );
               },

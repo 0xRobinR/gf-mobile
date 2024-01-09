@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:gf_mobile/components/Loading.dart';
 import 'package:gf_mobile/config/app.dart';
 import 'package:gf_mobile/hooks/useFetchObjects.dart';
+import 'package:gf_mobile/services/object/putObjectSync.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/state/ObjectNotifier.dart';
 import 'package:gf_mobile/utils/getFileCost.dart';
@@ -180,6 +181,13 @@ class _FilesOverviewState extends State<FilesOverview> {
           return;
         }
       } else {
+        scheduleBackgroundUpload(
+            filePath: file.path,
+            bucketName: widget.bucketName,
+            objectName: file.path.split('/').last,
+            txHash: resJson['hash'],
+            authKey: "0x${wallet.privateKey}");
+
         setState(() {
           isUploaded[files.indexOf(file)] = true;
         });

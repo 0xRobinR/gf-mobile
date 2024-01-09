@@ -28,6 +28,10 @@ class _GFUserStatsState extends State<GFUserStats> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initValues();
     });
+
+    final addressNotifier =
+        Provider.of<AddressNotifier>(context, listen: false);
+    addressNotifier.addListener(initValues);
   }
 
   void initValues() async {
@@ -39,11 +43,16 @@ class _GFUserStatsState extends State<GFUserStats> {
       });
       return;
     }
+    print("wallet address ${wallet.address}");
     final userData = await getUserData(wallet);
+    print("user data $userData");
     setState(() {
       balance = userData['bnbBalance'];
       value = userData['bnbValue'];
-      accountNumber = double.parse(userData['accountNumber'].toString());
+      accountNumber = double.parse(
+          userData['accountNumber'].toString() == "null"
+              ? "0"
+              : userData['accountNumber'].toString());
     });
   }
 

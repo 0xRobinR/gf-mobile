@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:gf_mobile/components/Loading.dart';
 import 'package:gf_mobile/hooks/useAuthCall.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
+import 'package:gf_mobile/state/BucketNotifier.dart';
 import 'package:gf_mobile/state/FetchUserBuckets.dart';
 import 'package:gf_mobile/state/FetchUserData.dart';
+import 'package:gf_mobile/state/SPNotifier.dart';
 import 'package:gf_mobile/utils/showSnackbar.dart';
 import 'package:gf_sdk/gf_sdk.dart';
 import 'package:provider/provider.dart';
@@ -155,6 +157,13 @@ class _CreateBucketState extends State<CreateBucket> {
     setState(() {
       isTxnLoading = false;
     });
+
+    final bucketNotifier = Provider.of<BucketNotifier>(context, listen: false);
+    final wallet = Provider.of<AddressNotifier>(context, listen: false);
+    final spNotifier = Provider.of<SPNotifier>(context, listen: false);
+    final fetchedBuckets = await getUserBuckets(
+        address: wallet.address, spURL: spNotifier.spInfo['endpoint']);
+    bucketNotifier.setBuckets(fetchedBuckets);
 
     Navigator.pop(context);
   }

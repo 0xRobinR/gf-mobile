@@ -50,6 +50,7 @@ dependencies:
   sliding_up_panel2:
   fl_chart:
   flutter_inappwebview:
+  workmanager: ^0.5.2
 
 dev_dependencies:
   flutter_test:

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gf_mobile/components/Text/TitleText.dart';
 import 'package:gf_mobile/routes.dart';
+import 'package:gf_mobile/services/object/putObjectSync.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
 import 'package:gf_mobile/state/AppAuthNotifier.dart';
 import 'package:gf_mobile/state/BucketNotifier.dart';
@@ -15,10 +16,13 @@ import 'package:gf_mobile/state/SPNotifier.dart';
 import 'package:gf_mobile/theme/theme_controller.dart';
 import 'package:gf_mobile/theme/themes.dart';
 import 'package:provider/provider.dart';
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   await GetStorage.init();
   Get.put(ThemeController());
+
+  Workmanager().initialize(startBackgroundUpload, isInDebugMode: true);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AddressNotifier()),
     ChangeNotifierProvider(create: (_) => AuthNotifier()),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +33,9 @@ class _GFBucketTileState extends State<GFBucketTile> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       fetchObjectsOnce();
+      Timer.periodic(const Duration(seconds: 120), (timer) {
+        fetchObjectsOnce();
+      });
     });
 
     final objectNotifier = Provider.of<ObjectNotifier>(context, listen: false);

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/Loading.dart';
 import 'package:gf_mobile/components/Text/SubTitle.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
-import 'package:gf_mobile/state/FetchUserBuckets.dart';
-import 'package:gf_mobile/state/SPNotifier.dart';
+import 'package:gf_mobile/state/BucketNotifier.dart';
 import 'package:gf_mobile/views/my_files/components/GFBucketTile.dart';
 import 'package:gf_sdk/models/GFBucket.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +14,10 @@ class GFFiles extends StatefulWidget {
   State<GFFiles> createState() => _GFFilesState();
 }
 
-class _GFFilesState extends State<GFFiles> {
+class _GFFilesState extends State<GFFiles> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   List<GFBucket> buckets = [];
   bool isLoading = true;
 
@@ -26,18 +28,17 @@ class _GFFilesState extends State<GFFiles> {
       fetchBuckets();
     });
 
-    final spNotifier = Provider.of<SPNotifier>(context, listen: false);
-    spNotifier.addListener(fetchBuckets);
-
     final addressNotifier =
         Provider.of<AddressNotifier>(context, listen: false);
     addressNotifier.addListener(fetchBuckets);
+
+    final bucketNotifier = Provider.of<BucketNotifier>(context, listen: false);
+    bucketNotifier.addListener(fetchBuckets);
   }
 
   fetchBuckets() async {
     final address =
         Provider.of<AddressNotifier>(context, listen: false).address;
-    final spNotifier = Provider.of<SPNotifier>(context, listen: false).spInfo;
 
     if (!mounted) {
       return;
@@ -50,20 +51,17 @@ class _GFFilesState extends State<GFFiles> {
       });
       return;
     }
-    final fetchedBuckets =
-        await getUserBuckets(address: address, spURL: spNotifier['endpoint']);
-
-    print("fetched buckets $fetchedBuckets");
+    final bucketNotifier = Provider.of<BucketNotifier>(context, listen: false);
 
     setState(() {
-      buckets = fetchedBuckets;
+      buckets = bucketNotifier.buckets;
       isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Files"),

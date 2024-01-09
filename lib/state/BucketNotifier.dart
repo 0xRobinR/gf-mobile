@@ -2,18 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:gf_sdk/models/GFBucket.dart';
 
 class BucketNotifier extends ChangeNotifier {
   final GetStorage _storage = GetStorage();
-  List<dynamic> _buckets = [];
+  List<GFBucket> _buckets = [];
 
-  List<dynamic> get buckets => _buckets;
+  List<GFBucket> get buckets => _buckets;
 
   saveToStorage() {
     _storage.write("user_buckets", jsonEncode(_buckets));
   }
 
-  void setBuckets(List<dynamic> bucket) {
+  void setBuckets(List<GFBucket> bucket) {
     _buckets = bucket;
 
     saveToStorage();

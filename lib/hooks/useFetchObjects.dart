@@ -10,8 +10,11 @@ Future<List<dynamic>> useFetchObjects(
   final _objectCount = await GfSdk().getBucketObjects(bucketName: bucket);
 
   final objectsInJson = jsonDecode(_objectCount ?? "[]");
-  final isLastPage = objectsInJson['pagination']['next_key'] == null;
-  final nextPageKey = objectsInJson['pagination']['next_key'];
+  if (objectsInJson['pagination'] == null) {
+    return [];
+  }
+  final isLastPage = objectsInJson['pagination']?['next_key'] == null;
+  final nextPageKey = objectsInJson['pagination']?['next_key'];
 
   objectCollected = objectsInJson['object_infos'];
 
