@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gf_mobile/components/cards/StatisticCard.dart';
+import 'package:gf_mobile/services/statistics/fetchGFStats.dart';
 import 'package:gf_mobile/state/FetchGFData.dart';
 
 class GFStatsCard extends StatefulWidget {
@@ -17,6 +18,8 @@ class _GFStatsCardState extends State<GFStatsCard> {
 
   String blockHeight = "0";
   String totalBuckets = "0";
+  String totalObjects = "0";
+  String totalTransactions = "0";
 
   @override
   void initState() {
@@ -29,12 +32,17 @@ class _GFStatsCardState extends State<GFStatsCard> {
 
   Future<void> initValues() async {
     final String? stats = await getGFStats();
+    final String buckets = await getBucketsCreated();
+    final String objects = await getObjectCount();
+    final String transactions = await getTransactionCount();
     try {
       final Map<String, dynamic>? statsMap = jsonDecode(stats ?? "{}");
 
       setState(() {
         blockHeight = statsMap!["currentBlock"];
-        totalBuckets = statsMap["totalBuckets"];
+        totalBuckets = buckets;
+        totalObjects = objects;
+        totalTransactions = transactions;
       });
     } catch (e) {
       print(e);
@@ -65,19 +73,19 @@ class _GFStatsCardState extends State<GFStatsCard> {
               value: totalBuckets,
               icon: Icons.cabin,
             ),
-            const StatisticCard(
-              title: "Total Addresses",
-              value: "15209",
-              icon: Icons.people,
-            ),
-            const StatisticCard(
+            // const StatisticCard(
+            //   title: "Total Addresses",
+            //   value: "15209",
+            //   icon: Icons.people,
+            // ),
+            StatisticCard(
               title: "Total Transactions",
-              value: "0",
+              value: totalTransactions,
               icon: Icons.receipt,
             ),
-            const StatisticCard(
+            StatisticCard(
               title: "Total Objects",
-              value: "300",
+              value: totalObjects,
               icon: Icons.data_object,
             ),
           ],

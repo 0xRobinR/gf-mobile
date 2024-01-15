@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   await GetStorage.init();
   Get.put(ThemeController());
 
