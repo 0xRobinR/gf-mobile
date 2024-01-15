@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gf_mobile/components/ChooseBucket.dart';
 
 class AddFiles extends StatelessWidget {
   const AddFiles({super.key});
@@ -45,7 +46,11 @@ class AddFiles extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pop("create");
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return ChooseBucket();
+                      });
                 },
                 child: Column(
                   children: [

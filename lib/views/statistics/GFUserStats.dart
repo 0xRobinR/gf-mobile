@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gf_mobile/components/ChooseBucket.dart';
 import 'package:gf_mobile/components/cards/ActionCards.dart';
 import 'package:gf_mobile/components/cards/UserCard.dart';
 import 'package:gf_mobile/state/AddressNotifier.dart';
@@ -98,8 +99,19 @@ class _GFUserStatsState extends State<GFUserStats> {
               Get.toNamed("/create_bucket");
             },
           ),
-          const ActionCards(
-              title: "Upload File", value: "5", icon: Icons.upload_file),
+          ActionCards(
+            title: "Upload File",
+            value: "5",
+            icon: Icons.upload_file,
+            onTap: () {
+              //show alert dialog
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return ChooseBucket();
+                  });
+            },
+          ),
         ]);
   }
 }
