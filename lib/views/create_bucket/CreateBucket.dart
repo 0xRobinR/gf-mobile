@@ -65,7 +65,7 @@ class _CreateBucketState extends State<CreateBucket> {
   fetchWallet() async {
     final wallet = Provider.of<AddressNotifier>(context, listen: false);
     setState(() {
-      authKey = "0x${wallet.privateKey}";
+      authKey = wallet.privateKey;
       primaryAddress = wallet.address;
       spAddress = "0x89A1CC91B642DECbC4789474694C606E0E0c420b";
     });
@@ -92,11 +92,13 @@ class _CreateBucketState extends State<CreateBucket> {
       return;
     }
 
-    final approval = await GfSdk().getApproval(
+    final approval = await GfSdk().createBucketApproval(
         authKey: authKey,
         primaryAddress: primaryAddress,
         spAddress: spAddress,
         bucketName: bucketName);
+
+    print("approval $approval");
 
     final approvalInJson = jsonDecode(approval!);
     final error = approvalInJson['error'];
