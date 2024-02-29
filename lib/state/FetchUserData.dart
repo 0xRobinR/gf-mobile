@@ -21,9 +21,13 @@ Future<Map<String, dynamic>> getUserData(wallet) async {
   final json = jsonDecode(userData!);
   bnbBalance = double.parse(json['amount'] ?? "0");
 
-  final bnbPrice = await Dio().get(bnbPriceUrl);
-  final bnbPriceJson = bnbPrice.data['price'];
-  bnbValue = (bnbBalance / 1e18) * double.parse(bnbPriceJson);
+  try {
+    final bnbPrice = await Dio().get(bnbPriceUrl);
+    final bnbPriceJson = bnbPrice.data['price'] ?? "0";
+    bnbValue = (bnbBalance / 1e18) * double.parse(bnbPriceJson);
+  } catch (e) {
+    print(e);
+  }
 
   final accountNumber = await GfSdk().getAccountInfo(address: address);
   final accountJson = jsonDecode(accountNumber ?? "[]");

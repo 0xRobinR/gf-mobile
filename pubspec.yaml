@@ -35,7 +35,7 @@ dependencies:
     path: "../gf_sdk"
 
   web3dart:
-  pointycastle:
+  pointycastle: ^3.7.4
   flutter_pin_code_fields:
   animated_digit: ^3.2.3
   animated_flip_counter: ^0.2.6
@@ -52,6 +52,8 @@ dependencies:
   flutter_inappwebview:
   workmanager: ^0.5.2
   flutter_dotenv: ^5.1.0
+  flutter_secure_storage: ^4.2.1
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:

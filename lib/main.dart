@@ -26,8 +26,12 @@ void main() async {
 
   Workmanager().initialize(startBackgroundUpload, isInDebugMode: true);
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => AddressNotifier()),
     ChangeNotifierProvider(create: (_) => AuthNotifier()),
+    ChangeNotifierProxyProvider<AuthNotifier, AddressNotifier>(
+      create: (_) => AddressNotifier(null), // Temporarily pass null
+      update: (_, authNotifier, addressNotifier) =>
+          AddressNotifier(authNotifier),
+    ),
     ChangeNotifierProvider(create: (_) => SPNotifier()),
     ChangeNotifierProvider(create: (_) => BucketNotifier()),
     ChangeNotifierProvider(create: (_) => ObjectNotifier())
